@@ -12,5 +12,6 @@ defmodule JuricListTest.TodoList do
 
     assert TodoList.entries(todo_list, ~D[2018-12-20]) == ["Shopping"]
     assert TodoList.entries(todo_list, ~D[2018-12-19]) == ["Dentist", "Movies"]
+    assert TodoList.entries(todo_list, ~D[2018-01-01]) == []
   end
 end

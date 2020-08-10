@@ -10,7 +10,7 @@ defmodule JuricList.TodoList do
 
   def entries(todo_list, date) do
     todo_list
-    |> Map.get(date)
+    |> Map.get(date, [])
     |> Enum.reverse()
   end
 end
