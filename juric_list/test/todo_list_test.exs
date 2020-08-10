@@ -3,15 +3,15 @@ defmodule JuricListTest.TodoList do
 
   alias JuricList.{TodoList}
 
-  test "new, add_entry, and entries" do
+  test "new, add_entry, and titles" do
     todo_list =
       TodoList.new()
-      |> TodoList.add_entry(~D[2018-12-19], "Dentist")
-      |> TodoList.add_entry(~D[2018-12-20], "Shopping")
-      |> TodoList.add_entry(~D[2018-12-19], "Movies")
+      |> TodoList.add_entry(%{date: ~D[2018-12-19], title: "Dentist"})
+      |> TodoList.add_entry(%{date: ~D[2018-12-20], title: "Shopping"})
+      |> TodoList.add_entry(%{date: ~D[2018-12-19], title: "Movies"})
 
-    assert TodoList.entries(todo_list, ~D[2018-12-20]) == ["Shopping"]
-    assert TodoList.entries(todo_list, ~D[2018-12-19]) == ["Dentist", "Movies"]
-    assert TodoList.entries(todo_list, ~D[2018-01-01]) == []
+    assert TodoList.titles(todo_list, ~D[2018-12-20]) == ["Shopping"]
+    assert TodoList.titles(todo_list, ~D[2018-12-19]) == ["Dentist", "Movies"]
+    assert TodoList.titles(todo_list, ~D[2018-01-01]) == []
   end
 end
