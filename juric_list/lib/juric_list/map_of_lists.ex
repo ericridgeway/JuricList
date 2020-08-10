@@ -1,5 +1,9 @@
 defmodule JuricList.MapOfLists do
 
+  def new() do
+    %{}
+  end
+
   def update(map, key, list_addition) do
     Map.update(map, key, [list_addition], &([list_addition | &1]))
   end

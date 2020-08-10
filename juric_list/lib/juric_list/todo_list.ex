@@ -3,7 +3,7 @@ defmodule JuricList.TodoList do
   alias JuricList.{MapOfLists}
 
   def new() do
-    %{}
+    MapOfLists.new()
   end
 
   def add_entry(todo_list, date, entry) do
