@@ -15,6 +15,7 @@ defmodule JuricListTest.TodoList do
       |> TodoList.add_entry(%{date: @date2, title: "Shopping"})
       |> TodoList.add_entry(%{date: @date1, title: "Movies"})
 
+    # TODO minor addEntry and update_entry/2 take %TodoEntry instead of any map (pg 119)
     {:ok, ~M{todo_list}}
   end
 
