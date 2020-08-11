@@ -24,8 +24,10 @@ defmodule JuricList.TodoList do
   end
 
   def update_entry(~M{entries} = todo_list, id, updater_fun) do
-    # old_entry = Map.get(entries, id)
     case Map.fetch(entries, id) do
+      :error ->
+        todo_list
+
       {:ok, old_entry} ->
         entry = updater_fun.(old_entry)
         entries = Map.put(entries, id, entry)
