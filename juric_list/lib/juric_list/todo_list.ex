@@ -10,7 +10,10 @@ defmodule JuricList.TodoList do
   end
 
   def new(entries_list) do
-    -1
+    Enum.reduce(entries_list, new(), fn (entry, todo_list) ->
+      todo_list
+      |> add_entry(entry)
+    end)
   end
 
   def add_entry(~M{auto_id, entries} = todo_list, entry) do
