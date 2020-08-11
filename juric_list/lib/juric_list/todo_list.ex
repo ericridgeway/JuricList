@@ -9,6 +9,13 @@ defmodule JuricList.TodoList do
     %TodoList{}
   end
 
+  def new(entries_list) do
+    Enum.reduce(entries_list, new(), fn (entry, todo_list) ->
+      todo_list
+      |> add_entry(entry)
+    end)
+  end
+
   def add_entry(~M{auto_id, entries} = todo_list, entry) do
     entry = Map.put(entry, :id, auto_id)
     entries = Map.put(entries, auto_id, entry)
