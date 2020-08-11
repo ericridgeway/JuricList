@@ -9,6 +9,10 @@ defmodule JuricList.TodoList do
     %TodoList{}
   end
 
+  def new(entries_list) do
+    -1
+  end
+
   def add_entry(~M{auto_id, entries} = todo_list, entry) do
     entry = Map.put(entry, :id, auto_id)
     entries = Map.put(entries, auto_id, entry)

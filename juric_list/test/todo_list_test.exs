@@ -62,4 +62,18 @@ defmodule JuricListTest.TodoList do
 
     assert TodoList.titles(todo_list, @date2) == []
   end
+
+  test "new/1 with list (of entries)" do
+    entries = [
+      %{date: @date1, title: "Dentist"},
+      %{date: @date2, title: "Shopping"},
+      %{date: @date1, title: "Movies"},
+    ]
+
+    todo_list = TodoList.new(entries)
+
+    assert TodoList.titles(todo_list, @date1) == ["Dentist", "Movies"]
+    assert TodoList.titles(todo_list, @date2) == ["Shopping"]
+    assert TodoList.titles(todo_list, ~D[1500-01-01]) == []
+  end
 end
