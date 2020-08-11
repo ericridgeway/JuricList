@@ -30,6 +30,7 @@ defmodule JuricList.TodoList do
 
       {:ok, old_entry} ->
         entry = updater_fun.(old_entry)
+        # validate_entry()
         entries = Map.put(entries, id, entry)
 
         ~M{%TodoList todo_list | entries}

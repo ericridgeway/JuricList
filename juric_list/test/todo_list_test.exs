@@ -40,4 +40,7 @@ defmodule JuricListTest.TodoList do
 
     assert todo_list == new_todo_list
   end
+
+  test "update_entry error if &updater_fun makes invalid entry" do
+  end
 end
