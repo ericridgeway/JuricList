@@ -39,6 +39,12 @@ defmodule JuricList.TodoList do
     end
   end
 
+  def delete_entry(todo_list, id) do
+    todo_list
+    |> pop_in([Access.key(:entries), Access.key(id)])
+    |> elem(1)
+  end
+
 
   defp validate_entry(entry, orig_id) do
     %{} = entry
