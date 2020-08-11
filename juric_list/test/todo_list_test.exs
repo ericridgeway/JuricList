@@ -41,6 +41,15 @@ defmodule JuricListTest.TodoList do
     assert todo_list == new_todo_list
   end
 
-  test "update_entry error if &updater_fun makes invalid entry" do
+  test "update_entry, validate updater_fun's proposed entry", ~M{todo_list} do
+    assert_raise MatchError, fn ->
+      todo_list
+      |> TodoList.update_entry(1, fn _ -> :bad_entry end)
+    end
+
+    assert_raise MatchError, fn ->
+      todo_list
+      |> TodoList.update_entry(1, &Map.put(&1, :id, :bad_id))
+    end
   end
 end
