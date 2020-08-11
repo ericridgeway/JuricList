@@ -20,6 +20,12 @@ defmodule JuricListTest.TodoList do
     assert TodoList.titles(todo_list, ~D[2018-01-01]) == []
   end
 
-  # test "update_entry", ~M{todo_list} do
-  # end
+  test "update_entry", ~M{todo_list} do
+    todo_list =
+      todo_list
+      |> TodoList.update_entry(2, &Map.put(&1, :date, ~D[2020-01-01]))
+
+    assert TodoList.titles(todo_list, ~D[2018-12-20]) == []
+    assert TodoList.titles(todo_list, ~D[2020-01-01]) == ["Shopping"]
+  end
 end

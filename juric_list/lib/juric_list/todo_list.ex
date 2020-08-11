@@ -1,4 +1,5 @@
 defmodule JuricList.TodoList do
+  import ShorterMaps
 
   alias JuricList.{MapOfLists, TodoList}
 
@@ -22,5 +23,12 @@ defmodule JuricList.TodoList do
     entries
     |> Enum.filter(fn ({_id, %{date: date}}) -> date == target_date end)
     |> Enum.map(fn ({_id, %{title: title}}) -> title end)
+  end
+
+  def update_entry(~M{entries} = todo_list, id, updater_fun) do
+    new_entry = updater_fun.(todo_list.entries[id])
+    new_entries = Map.put(todo_list.entries, id, new_entry)
+
+    %TodoList{todo_list | entries: new_entries}
   end
 end
