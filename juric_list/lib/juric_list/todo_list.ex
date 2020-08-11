@@ -1,7 +1,7 @@
 defmodule JuricList.TodoList do
   import ShorterMaps
 
-  alias JuricList.{MapOfLists, TodoList}
+  alias JuricList.{TodoList}
 
   defstruct auto_id: 1, entries: %{}
 
@@ -17,7 +17,6 @@ defmodule JuricList.TodoList do
     ~M{%TodoList todo_list | entries, auto_id}
   end
 
-  # TODO delete MapOfLists, no longer needed (we're storing a simpler map of entries, not a map of growing lists in the values
   def titles(todo_list, target_date) do
     todo_list.entries
     |> Enum.filter(fn ({_id, %{date: date}}) -> date == target_date end)
