@@ -1,24 +1,26 @@
 defmodule JuricList.TodoList do
 
-  alias JuricList.{MapOfLists}
+  alias JuricList.{MapOfLists, TodoList}
+
+  defstruct auto_id: 1, entries: %{}
 
   def new() do
-    MapOfLists.new()
+    %TodoList{}
   end
 
-  def add_entry(todo_list, entry) do
-    MapOfLists.update(todo_list, entry.date, entry)
+  def add_entry(%{auto_id: auto_id, entries: entries} = todo_list, entry) do
+    entry = Map.put(entry, :id, auto_id)
+    entries = Map.put(entries, auto_id, entry)
+    auto_id = auto_id + 1
+
+    %TodoList{todo_list | entries: entries, auto_id: auto_id}
   end
 
-  def titles(todo_list, date) do
-    MapOfLists.get_list(todo_list, date)
-    |> just_titles_from_entries_list()
-  end
-
-
-  defp just_titles_from_entries_list(entries_list) do
-    entries_list
-    |> Enum.reduce([], fn (%{title: title}, list) -> [title | list] end)
-    |> Enum.reverse()
+  # TODO delete MapOfLists, no longer needed (we're storing a simpler map of entries, not a map of growing lists in the values
+  # TODO shortermaps
+  def titles(%{entries: entries} = todo_list, target_date) do
+    entries
+    |> Enum.filter(fn ({_id, %{date: date}}) -> date == target_date end)
+    |> Enum.map(fn ({_id, %{title: title}}) -> title end)
   end
 end

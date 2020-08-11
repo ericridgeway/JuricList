@@ -10,6 +10,7 @@ defmodule JuricListTest.TodoList do
       |> TodoList.add_entry(%{date: ~D[2018-12-20], title: "Shopping"})
       |> TodoList.add_entry(%{date: ~D[2018-12-19], title: "Movies"})
 
+    IO.puts ""; require InspectVars; InspectVars.inspect([todo_list])
     assert TodoList.titles(todo_list, ~D[2018-12-20]) == ["Shopping"]
     assert TodoList.titles(todo_list, ~D[2018-12-19]) == ["Dentist", "Movies"]
     assert TodoList.titles(todo_list, ~D[2018-01-01]) == []
