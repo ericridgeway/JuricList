@@ -19,8 +19,8 @@ defmodule JuricListTest.TodoList do
   end
 
   test "new, add_entry, and titles", ~M{todo_list} do
-    assert TodoList.titles(todo_list, @date2) == ["Shopping"]
     assert TodoList.titles(todo_list, @date1) == ["Dentist", "Movies"]
+    assert TodoList.titles(todo_list, @date2) == ["Shopping"]
     assert TodoList.titles(todo_list, ~D[1500-01-01]) == []
   end
 
