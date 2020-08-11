@@ -15,7 +15,6 @@ defmodule JuricListTest.TodoList do
       |> TodoList.add_entry(%{date: @date2, title: "Shopping"})
       |> TodoList.add_entry(%{date: @date1, title: "Movies"})
 
-    # TODO minor addEntry and update_entry/2 take %TodoEntry instead of any map (pg 119)
     {:ok, ~M{todo_list}}
   end
 
@@ -53,15 +52,4 @@ defmodule JuricListTest.TodoList do
       |> TodoList.update_entry(1, &Map.put(&1, :id, :bad_id))
     end
   end
-
-  # TODO minor, diff syntax page 119 in the middle
-  # test "update_entry/2", ~M{todo_list} do
-  #   new_entry = Map.put(todo_list.entries, 2,
-  #   todo_list =
-  #     todo_list
-  #     |> TodoList.update_entry(Map.put(, :date, @date_updated))
-
-  #   assert TodoList.titles(todo_list, @date2) == []
-  #   assert TodoList.titles(todo_list, @date_updated) == ["Shopping"]
-  # end
 end
