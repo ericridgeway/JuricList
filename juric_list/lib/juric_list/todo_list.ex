@@ -19,15 +19,15 @@ defmodule JuricList.TodoList do
 
   # TODO delete MapOfLists, no longer needed (we're storing a simpler map of entries, not a map of growing lists in the values
   # TODO shortermaps
-  def titles(%{entries: entries} = todo_list, target_date) do
+  def titles(%{entries: entries} = _todo_list, target_date) do
     entries
     |> Enum.filter(fn ({_id, %{date: date}}) -> date == target_date end)
     |> Enum.map(fn ({_id, %{title: title}}) -> title end)
   end
 
   def update_entry(~M{entries} = todo_list, id, updater_fun) do
-    new_entry = updater_fun.(todo_list.entries[id])
-    new_entries = Map.put(todo_list.entries, id, new_entry)
+    new_entry = updater_fun.(entries[id])
+    new_entries = Map.put(entries, id, new_entry)
 
     %TodoList{todo_list | entries: new_entries}
   end
