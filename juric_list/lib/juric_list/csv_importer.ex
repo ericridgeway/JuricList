@@ -6,9 +6,9 @@ defmodule JuricList.CsvImporter do
   def import(file) do
     file
     |> File.stream!()
-    |> Enum.map(&String.trim/1)
-    |> Enum.map(&String.split(&1, ","))
-    |> Enum.map(&List.to_tuple/1)
+    |> Stream.map(&String.trim/1)
+    |> Stream.map(&String.split(&1, ","))
+    |> Stream.map(&List.to_tuple/1)
     |> Enum.map(&make_entry/1)
     |> TodoList.new()
   end
