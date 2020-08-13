@@ -10,6 +10,10 @@ defmodule JuricListTest.TodoServer do
   setup do
     todo_server = TodoServer.start()
 
+    TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
+    TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
+    TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
+
     on_exit fn ->
       TodoServer.finish(todo_server)
     end
@@ -17,11 +21,7 @@ defmodule JuricListTest.TodoServer do
     ~M{todo_server}
   end
 
-  test "add_entry", ~M{todo_server} do
-    TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
-    TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
-    TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
-
+  test "check add_entry was successful", ~M{todo_server} do
     entries =
       TodoServer.entries(todo_server, @date1)
       |> Enum.map(&Map.get(&1, :title))
