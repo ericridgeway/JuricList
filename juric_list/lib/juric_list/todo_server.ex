@@ -6,10 +6,6 @@ defmodule JuricList.TodoServer do
     spawn(fn -> loop(TodoList.new()) end)
   end
 
-  def titles(_, _) do
-    -1
-  end
-
   def finish(_) do
     -1
   end

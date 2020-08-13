@@ -17,11 +17,15 @@ defmodule JuricListTest.TodoServer do
     ~M{todo_server}
   end
 
-  test "TODO", ~M{todo_server} do
+  test "add_entry", ~M{todo_server} do
     TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
     TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
     TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
 
-    assert TodoServer.titles(todo_server, @date1) == ["Dentist", "Movies"]
+    entries =
+      TodoServer.entries(todo_server, @date1)
+      |> Enum.map(&Map.get(&1, :title))
+
+    assert entries == ["Dentist", "Movies"]
   end
 end
