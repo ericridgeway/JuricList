@@ -23,20 +23,18 @@ defmodule JuricListTest.TodoServer do
   end
 
   test "check add_entry was successful", ~M{todo_server} do
-    entries =
-      TodoServer.entries(todo_server, @date1)
-      |> Enum.map(&Map.get(&1, :title))
-
-    assert entries == ["Dentist", "Movies"]
+    assert entries(todo_server, @date1) == ["Dentist", "Movies"]
   end
 
   test "update_entry", ~M{todo_server} do
     TodoServer.update_entry(todo_server, 2, &Map.put(&1, :date, @date_updated))
 
-    entries =
-      TodoServer.entries(todo_server, @date_updated)
-      |> Enum.map(&Map.get(&1, :title))
+    assert entries(todo_server, @date_updated) == ["Shopping"]
+  end
 
-    assert entries == ["Shopping"]
+
+  defp entries(todo_server, date) do
+    TodoServer.entries(todo_server, date)
+    |> Enum.map(&Map.get(&1, :title))
   end
 end
