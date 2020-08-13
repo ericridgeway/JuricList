@@ -9,7 +9,8 @@ defmodule JuricListTest.TodoServer do
 
   setup do
     _todo_server = TodoServer.start()
-   Process.sleep(200)
+    Process.sleep(200)
+
     TodoServer.add_entry(%{date: @date1, title: "Dentist"})
     TodoServer.add_entry(%{date: @date2, title: "Shopping"})
     TodoServer.add_entry(%{date: @date1, title: "Movies"})
@@ -18,13 +19,6 @@ defmodule JuricListTest.TodoServer do
       TodoServer.finish()
     end
 
-    # TODO next ok, I need the kill registered process teardown afterall...
-
-    # TODO notes to class, the bs Process.sleep hack he used, that it's the solution to that vague error, and also WHY is it needed. Some kind of async Process.register slowness thing where program doesn't pause and wait for Process.register before going along it's merry way?
-    #
-    # 2- This teardown needed for multiple tests not fighting, test2's setup trys to register name, but test1 already dibs'd it
-
-    # ~M{todo_server}
     :ok
   end
 
