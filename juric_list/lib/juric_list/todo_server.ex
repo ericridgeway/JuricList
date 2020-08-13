@@ -2,11 +2,9 @@ defmodule JuricList.TodoServer do
 
   alias JuricList.{TodoList}
 
-  @me __MODULE__
+  @me :whatever
 
   def start() do
-    Process.register(self(), @me)
-
     spawn(fn -> loop(TodoList.new()) end)
   end
 
@@ -34,6 +32,10 @@ defmodule JuricList.TodoServer do
 
 
   defp loop(todo_list) do
+    # TODO doing this every time. I prob need a init setup func or something...
+    #   it doesn't "just work" in the very first start func because loop doesnt exist yet, right?
+    Process.register(self(), @me)
+
     todo_list =
       receive do
         message -> process_message(todo_list, message)
