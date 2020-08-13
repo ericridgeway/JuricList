@@ -6,6 +6,7 @@ defmodule JuricListTest.TodoServer do
 
   @date1 ~D[2018-12-19]
   @date2 ~D[2018-12-20]
+  @date_updated ~D[2020-01-01]
 
   setup do
     todo_server = TodoServer.start()
@@ -27,5 +28,15 @@ defmodule JuricListTest.TodoServer do
       |> Enum.map(&Map.get(&1, :title))
 
     assert entries == ["Dentist", "Movies"]
+  end
+
+  test "update_entry", ~M{todo_server} do
+    TodoServer.update_entry(todo_server, 2, &Map.put(&1, :date, @date_updated))
+
+    entries =
+      TodoServer.entries(todo_server, @date_updated)
+      |> Enum.map(&Map.get(&1, :title))
+
+    assert entries == ["Shopping"]
   end
 end

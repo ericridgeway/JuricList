@@ -14,6 +14,10 @@ defmodule JuricList.TodoServer do
     send(todo_server, {:add_entry, entry})
   end
 
+  def update_entry(todo_server, id, updater_fun) do
+    send(todo_server, {:update_entry, id, updater_fun})
+  end
+
   def entries(todo_server, date) do
     send(todo_server, {:entries, self(), date})
 
@@ -36,6 +40,11 @@ defmodule JuricList.TodoServer do
   defp process_message(todo_list, {:add_entry, entry}) do
     todo_list
     |> TodoList.add_entry(entry)
+  end
+
+  defp process_message(todo_list, {:update_entry, id, updater_fun}) do
+    todo_list
+    |> TodoList.update_entry(id, updater_fun)
   end
 
   defp process_message(todo_list, {:entries, caller, date}) do
