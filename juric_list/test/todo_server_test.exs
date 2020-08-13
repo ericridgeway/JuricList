@@ -18,10 +18,10 @@ defmodule JuricListTest.TodoServer do
   end
 
   test "TODO", ~M{todo_server} do
-    :ok = TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
-    :ok = TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
-    :ok = TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
+    TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
+    TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
+    TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
 
-    # assert TodoServer.titles(todo_server, @date1) == ["Dentist", "Movies"]
+    assert TodoServer.titles(todo_server, @date1) == ["Dentist", "Movies"]
   end
 end
