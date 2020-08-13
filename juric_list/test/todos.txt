@@ -19,6 +19,7 @@ todo_list_test.exs
 #
 
 todo_server_test.exs
+# UPDATE: I think this is answered on pg 152, with the promise of followup in ch 7. Not positive tho. The short answer seems to be "for concurrent stuff like 2+ users", something like that, and not caring what order they async ask the questions in... Something
     # The answer might be obvious once you give it, but... I've forgotten why we smetimes
     #   want to do this. add OOP/genserver concept. We don't have to do
     #   todo_list2 = TodoList.do_something(todo_list1, ...)

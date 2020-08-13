@@ -32,6 +32,7 @@ defmodule JuricList.TodoServer do
     end
   end
 
+
   defp loop(todo_list) do
     todo_list =
       receive do
