@@ -2,12 +2,16 @@ defmodule JuricList.TodoServer do
 
   alias JuricList.{TodoList}
 
+  @me __MODULE__
+
   def start() do
+    Process.register(self(), @me)
+
     spawn(fn -> loop(TodoList.new()) end)
   end
 
-  def add_entry(todo_server, entry) do
-    send(todo_server, {:add_entry, entry})
+  def add_entry(entry) do
+    send(@me, {:add_entry, entry})
   end
 
   def update_entry(todo_server, id, updater_fun) do
@@ -18,8 +22,8 @@ defmodule JuricList.TodoServer do
     send(todo_server, {:delete_entry, id})
   end
 
-  def entries(todo_server, date) do
-    send(todo_server, {:entries, self(), date})
+  def entries(date) do
+    send(@me, {:entries, self(), date})
 
     receive do
       {:entries_reply, entries} -> entries

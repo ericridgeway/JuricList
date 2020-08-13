@@ -9,34 +9,35 @@ defmodule JuricListTest.TodoServer do
   @date_updated ~D[2020-01-01]
 
   setup do
-    todo_server = TodoServer.start()
+    _todo_server = TodoServer.start()
 
-    TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
-    TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
-    TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
+    TodoServer.add_entry(%{date: @date1, title: "Dentist"})
+    TodoServer.add_entry(%{date: @date2, title: "Shopping"})
+    TodoServer.add_entry(%{date: @date1, title: "Movies"})
 
-    ~M{todo_server}
+    # ~M{todo_server}
+    :ok
   end
 
-  test "check add_entry was successful", ~M{todo_server} do
-    assert entries(todo_server, @date1) == ["Dentist", "Movies"]
+  test "check add_entry was successful", ~M{} do
+    assert entries(@date1) == ["Dentist", "Movies"]
   end
 
-  test "update_entry", ~M{todo_server} do
-    TodoServer.update_entry(todo_server, 2, &Map.put(&1, :date, @date_updated))
+  # test "update_entry", ~M{todo_server} do
+  #   TodoServer.update_entry(2, &Map.put(&1, :date, @date_updated))
 
-    assert entries(todo_server, @date_updated) == ["Shopping"]
-  end
+  #   assert entries(@date_updated) == ["Shopping"]
+  # end
 
-  test "delete_entry", ~M{todo_server} do
-    TodoServer.delete_entry(todo_server, 2)
+  # test "delete_entry", ~M{todo_server} do
+  #   TodoServer.delete_entry(2)
 
-    assert entries(todo_server, @date2) == []
-  end
+  #   assert entries(@date2) == []
+  # end
 
 
-  defp entries(todo_server, date) do
-    TodoServer.entries(todo_server, date)
+  defp entries(date) do
+    TodoServer.entries(date)
     |> Enum.map(&Map.get(&1, :title))
   end
 end
