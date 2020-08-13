@@ -76,4 +76,11 @@ defmodule JuricListTest.TodoList do
     assert TodoList.titles(todo_list, @date2) == ["Shopping"]
     assert TodoList.titles(todo_list, ~D[1500-01-01]) == []
   end
+
+  test "entries gets list of entry maps", ~M{todo_list} do
+    entries = TodoList.entries(todo_list, @date2)
+    [first_entry | _] = entries
+
+    assert first_entry.title == "Shopping"
+  end
 end

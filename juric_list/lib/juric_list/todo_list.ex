@@ -24,10 +24,15 @@ defmodule JuricList.TodoList do
     ~M{%TodoList todo_list | entries, auto_id}
   end
 
-  def titles(todo_list, target_date) do
+  def entries(todo_list, target_date) do
     todo_list.entries
-    |> Enum.filter(fn ({_id, %{date: date}}) -> date == target_date end)
-    |> Enum.map(fn ({_id, %{title: title}}) -> title end)
+    |> Map.values()
+    |> Enum.filter(fn (%{date: date}) -> date == target_date end)
+  end
+
+  def titles(todo_list, target_date) do
+    entries(todo_list, target_date)
+    |> Enum.map(fn (%{title: title}) -> title end)
   end
 
   def update_entry(~M{entries} = todo_list, id, updater_fun) do
