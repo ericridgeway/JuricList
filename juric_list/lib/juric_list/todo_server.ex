@@ -41,7 +41,13 @@ defmodule JuricList.TodoServer do
         message -> process_message(todo_list, message)
       end
 
-    loop(todo_list)
+    case todo_list do
+      :done ->
+        :ok
+
+      _ ->
+        loop(todo_list)
+    end
   end
 
   defp process_message(todo_list, {:add_entry, entry}) do
