@@ -14,3 +14,24 @@ todo_list_test.exs
   #   assert TodoList.titles(todo_list, @date_updated) == ["Shopping"]
   # end
 
+#
+# @grp questions
+#
+
+todo_server_test.exs
+    # The answer might be obvious once you give it, but... I've forgotten why we smetimes
+    #   want to do this. add OOP/genserver concept. We don't have to do
+    #   todo_list2 = TodoList.do_something(todo_list1, ...)
+    #   etc. a bunch of times. But pipelines/the entire point of elixir/functional
+    #   goes a long way to minimize that being much (if any) of an annoyance
+    #
+    #   so what are the situations where we want to use this again? Only when we need
+    #   to start thinking about 2+ clients calling it at once or something? And even then,
+    #   why couldn't we just hold the passed-back 'new_todo_list' each time or something?
+
+    TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
+    TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
+    TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
+
+
+
