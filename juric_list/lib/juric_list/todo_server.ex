@@ -12,6 +12,10 @@ defmodule JuricList.TodoServer do
     end)
   end
 
+  def finish() do
+    send(@me, :finish)
+  end
+
   def add_entry(entry) do
     send(@me, {:add_entry, entry})
   end
@@ -42,12 +46,16 @@ defmodule JuricList.TodoServer do
       end
 
     case todo_list do
-      :done ->
+      :finish ->
         :ok
 
       _ ->
         loop(todo_list)
     end
+  end
+
+  defp process_message(_todo_list, :finish) do
+    :finish
   end
 
   defp process_message(todo_list, {:add_entry, entry}) do

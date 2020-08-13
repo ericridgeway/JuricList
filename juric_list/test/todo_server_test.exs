@@ -16,6 +16,10 @@ defmodule JuricListTest.TodoServer do
     TodoServer.add_entry(%{date: @date2, title: "Shopping"})
     TodoServer.add_entry(%{date: @date1, title: "Movies"})
 
+    on_exit fn ->
+      TodoServer.finish()
+    end
+
     # TODO next ok, I need the kill registered process teardown afterall...
 
     # TODO notes to class, the bs Process.sleep hack he used, that it's the solution to that vague error, and also WHY is it needed. Some kind of async Process.register slowness thing where program doesn't pause and wait for Process.register before going along it's merry way?
