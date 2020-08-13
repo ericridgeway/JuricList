@@ -32,6 +32,12 @@ defmodule JuricListTest.TodoServer do
     assert entries(todo_server, @date_updated) == ["Shopping"]
   end
 
+  test "delete_entry", ~M{todo_server} do
+    TodoServer.delete_entry(todo_server, 2)
+
+    assert entries(todo_server, @date2) == []
+  end
+
 
   defp entries(todo_server, date) do
     TodoServer.entries(todo_server, date)
