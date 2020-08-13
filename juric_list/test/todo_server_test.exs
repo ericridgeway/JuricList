@@ -1,7 +1,5 @@
 defmodule JuricListTest.TodoServer do
-  use ExUnit.Case, async: false
-
-  import ShorterMaps
+  use ExUnit.Case
 
   alias JuricList.{TodoServer}
 
