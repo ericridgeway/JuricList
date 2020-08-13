@@ -27,12 +27,12 @@ defmodule JuricList.TodoList do
   def entries(todo_list, target_date) do
     todo_list.entries
     |> Map.values()
-    |> Enum.filter(fn (%{date: date}) -> date == target_date end)
+    |> Enum.filter(& Map.get(&1, :date) == target_date )
   end
 
   def titles(todo_list, target_date) do
     entries(todo_list, target_date)
-    |> Enum.map(fn (%{title: title}) -> title end)
+    |> Enum.map(&Map.get(&1, :title))
   end
 
   def update_entry(~M{entries} = todo_list, id, updater_fun) do
