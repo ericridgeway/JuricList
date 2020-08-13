@@ -36,7 +36,7 @@ defmodule JuricListTest.TodoList do
   test "update_entry, no error if no matching id (just return unchanged)", ~M{todo_list} do
     new_todo_list =
       todo_list
-      |> TodoList.update_entry(:bad_id, &Map.put(&1, :date, @date_updated))
+      |> TodoList.update_entry(:bad_id, &Map.put(&1, :date, @date1))
 
     assert todo_list == new_todo_list
   end
