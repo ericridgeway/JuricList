@@ -14,8 +14,12 @@ todo_list_test.exs
   #   assert TodoList.titles(todo_list, @date_updated) == ["Shopping"]
   # end
 
+#
+# @grp questions
+#
+
 todo_server_test.exs
-    # @grp The answer might be obvious once you give it, but... I've forgotten why we smetimes
+    # The answer might be obvious once you give it, but... I've forgotten why we smetimes
     #   want to do this. add OOP/genserver concept. We don't have to do
     #   todo_list2 = TodoList.do_something(todo_list1, ...)
     #   etc. a bunch of times. But pipelines/the entire point of elixir/functional
