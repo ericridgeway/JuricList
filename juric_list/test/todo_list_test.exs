@@ -18,6 +18,7 @@ defmodule JuricListTest.TodoList do
     {:ok, ~M{todo_list}}
   end
 
+
   test "new, add_entry, and titles", ~M{todo_list} do
     assert TodoList.titles(todo_list, @date1) == ["Dentist", "Movies"]
     assert TodoList.titles(todo_list, @date2) == ["Shopping"]
@@ -49,7 +50,7 @@ defmodule JuricListTest.TodoList do
 
     assert_raise MatchError, fn ->
       todo_list
-      |> TodoList.update_entry(1, &Map.put(&1, :id, :bad_id))
+      |> TodoList.update_entry(1, &Map.put(&1, :id, 2))
     end
   end
 
@@ -77,7 +78,7 @@ defmodule JuricListTest.TodoList do
     assert TodoList.titles(todo_list, ~D[1500-01-01]) == []
   end
 
-  test "entries gets list of entry maps", ~M{todo_list} do
+  test "entries/2", ~M{todo_list} do
     entries = TodoList.entries(todo_list, @date2)
     [first_entry | _] = entries
 
