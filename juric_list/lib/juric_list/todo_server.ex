@@ -42,18 +42,15 @@ defmodule JuricList.TodoServer do
   end
 
   defp process_message(todo_list, {:add_entry, entry}) do
-    todo_list
-    |> TodoList.add_entry(entry)
+    TodoList.add_entry(todo_list, entry)
   end
 
   defp process_message(todo_list, {:update_entry, id, updater_fun}) do
-    todo_list
-    |> TodoList.update_entry(id, updater_fun)
+    TodoList.update_entry(todo_list, id, updater_fun)
   end
 
   defp process_message(todo_list, {:delete_entry, id}) do
-    todo_list
-    |> TodoList.delete_entry(id)
+    TodoList.delete_entry(todo_list, id)
   end
 
   defp process_message(todo_list, {:entries, caller, date}) do
