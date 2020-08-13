@@ -15,10 +15,6 @@ defmodule JuricListTest.TodoServer do
     TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
     TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
 
-    on_exit fn ->
-      TodoServer.finish(todo_server)
-    end
-
     ~M{todo_server}
   end
 

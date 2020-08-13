@@ -6,10 +6,6 @@ defmodule JuricList.TodoServer do
     spawn(fn -> loop(TodoList.new()) end)
   end
 
-  def finish(_) do
-    -1
-  end
-
   def add_entry(todo_server, entry) do
     send(todo_server, {:add_entry, entry})
   end
