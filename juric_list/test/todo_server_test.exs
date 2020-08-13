@@ -1,6 +1,5 @@
 defmodule JuricListTest.TodoServer do
   use ExUnit.Case
-  import ShorterMaps
 
   alias JuricList.{TodoServer}
 
@@ -9,34 +8,45 @@ defmodule JuricListTest.TodoServer do
   @date_updated ~D[2020-01-01]
 
   setup do
-    todo_server = TodoServer.start()
+    _todo_server = TodoServer.start()
+   Process.sleep(200)
+    TodoServer.add_entry(%{date: @date1, title: "Dentist"})
+    TodoServer.add_entry(%{date: @date2, title: "Shopping"})
+    TodoServer.add_entry(%{date: @date1, title: "Movies"})
 
-    TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
-    TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
-    TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
+    on_exit fn ->
+      TodoServer.finish()
+    end
 
-    ~M{todo_server}
+    # TODO next ok, I need the kill registered process teardown afterall...
+
+    # TODO notes to class, the bs Process.sleep hack he used, that it's the solution to that vague error, and also WHY is it needed. Some kind of async Process.register slowness thing where program doesn't pause and wait for Process.register before going along it's merry way?
+    #
+    # 2- This teardown needed for multiple tests not fighting, test2's setup trys to register name, but test1 already dibs'd it
+
+    # ~M{todo_server}
+    :ok
   end
 
-  test "check add_entry was successful", ~M{todo_server} do
-    assert entries(todo_server, @date1) == ["Dentist", "Movies"]
+  test "check add_entry was successful" do
+    assert entries(@date1) == ["Dentist", "Movies"]
   end
 
-  test "update_entry", ~M{todo_server} do
-    TodoServer.update_entry(todo_server, 2, &Map.put(&1, :date, @date_updated))
+  test "update_entry" do
+    TodoServer.update_entry(2, &Map.put(&1, :date, @date_updated))
 
-    assert entries(todo_server, @date_updated) == ["Shopping"]
+    assert entries(@date_updated) == ["Shopping"]
   end
 
-  test "delete_entry", ~M{todo_server} do
-    TodoServer.delete_entry(todo_server, 2)
+  test "delete_entry" do
+    TodoServer.delete_entry(2)
 
-    assert entries(todo_server, @date2) == []
+    assert entries(@date2) == []
   end
 
 
-  defp entries(todo_server, date) do
-    TodoServer.entries(todo_server, date)
+  defp entries(date) do
+    TodoServer.entries(date)
     |> Enum.map(&Map.get(&1, :title))
   end
 end
