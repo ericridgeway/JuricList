@@ -1,14 +1,6 @@
 defmodule JuricList.KeyValueStore do
-  use GenServer
-
-  alias JuricList.{ServerProcess, KeyValueStore}
-
-  #
-  # Client
-  #
-
   def start() do
-    GenServer.start(KeyValueStore, nil)
+    GenServer.start(__MODULE__.Server, nil)
   end
 
   def put(pid, key, value) do
@@ -18,21 +10,5 @@ defmodule JuricList.KeyValueStore do
   def get(pid, key) do
     GenServer.call(pid, {:get, key})
   end
-
-
-  #
-  # Server
-  #
-
-  def init(_) do
-    {:ok, %{}}
-  end
-
-  def handle_cast({:put, key, value}, state) do
-    {:noreply, Map.put(state, key, value)}
-  end
-
-  def handle_call({:get, key}, _from, state) do
-    {:reply, Map.get(state, key), state}
-  end
 end
+
