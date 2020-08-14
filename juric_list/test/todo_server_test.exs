@@ -10,15 +10,10 @@ defmodule JuricListTest.TodoServer do
 
   setup do
     todo_server = TodoServer.start()
-    Process.sleep(200)
 
     TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
     TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
     TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
-
-    # on_exit fn ->
-    #   TodoServer.finish()
-    # end
 
     ~M{todo_server}
   end
@@ -33,11 +28,11 @@ defmodule JuricListTest.TodoServer do
     assert entries(todo_server, @date_updated) == ["Shopping"]
   end
 
-  # test "delete_entry" do
-  #   TodoServer.delete_entry(2)
+  test "delete_entry", ~M{todo_server} do
+    TodoServer.delete_entry(todo_server, 2)
 
-  #   assert entries(@date2) == []
-  # end
+    assert entries(todo_server, @date2) == []
+  end
 
 
   defp entries(todo_server, date) do
