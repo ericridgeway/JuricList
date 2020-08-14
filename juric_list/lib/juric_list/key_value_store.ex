@@ -1,5 +1,20 @@
 defmodule JuricList.KeyValueStore do
 
+  alias JuricList.{ServerProcess, KeyValueStore}
+
+  def start() do
+    ServerProcess.start(KeyValueStore)
+  end
+
+  def put(pid, key, value) do
+    ServerProcess.call(pid, {:put, key, value})
+  end
+
+  def get(pid, key) do
+    ServerProcess.call(pid, {:get, key})
+  end
+
+
   def init() do
     %{}
   end

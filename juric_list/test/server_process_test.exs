@@ -4,10 +4,10 @@ defmodule JuricListTest.ServerProcess do
   alias JuricList.{ServerProcess, KeyValueStore}
 
   test "Extract generic Server process" do
-    pid = ServerProcess.start(KeyValueStore)
+    pid = KeyValueStore.start()
 
-    :ok = ServerProcess.call(pid, {:put, :some_key, :some_value})
-    reply = ServerProcess.call(pid, {:get, :some_key})
+    :ok = KeyValueStore.put(pid, :some_key, :some_value)
+    reply = KeyValueStore.get(pid, :some_key)
 
     assert reply == :some_value
   end
