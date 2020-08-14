@@ -1,9 +1,9 @@
-defmodule JuricListTest.ServerProcess do
+defmodule JuricListTest.KeyValueStore do
   use ExUnit.Case
 
-  alias JuricList.{ServerProcess, KeyValueStore}
+  alias JuricList.{KeyValueStore}
 
-  test "Extract generic Server process" do
+  test "KeyValueStore (using custom generic Server process without us seeing)" do
     pid = KeyValueStore.start()
 
     :ok = KeyValueStore.put(pid, :some_key, :some_value)
