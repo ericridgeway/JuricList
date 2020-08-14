@@ -20,8 +20,8 @@ defmodule JuricList.TodoServer do
     ServerProcess.cast(pid, {:add_entry, entry})
   end
 
-  def update_entry(id, updater_fun) do
-    send(@me, {:update_entry, id, updater_fun})
+  def update_entry(pid, id, updater_fun) do
+    ServerProcess.cast(pid, {:update_entry, id, updater_fun})
   end
 
   def delete_entry(id) do
@@ -37,6 +37,10 @@ defmodule JuricList.TodoServer do
     TodoList.add_entry(todo_list, entry)
   end
 
+  def handle_cast({:update_entry, id, updater_fun}, todo_list) do
+    TodoList.update_entry(todo_list, id, updater_fun)
+  end
+
   def handle_call({:entries, date}, todo_list) do
     {TodoList.entries(todo_list, date), todo_list}
   end
@@ -44,10 +48,6 @@ defmodule JuricList.TodoServer do
 
   defp process_message(_todo_list, :finish) do
     :finish
-  end
-
-  defp process_message(todo_list, {:update_entry, id, updater_fun}) do
-    TodoList.update_entry(todo_list, id, updater_fun)
   end
 
   defp process_message(todo_list, {:delete_entry, id}) do

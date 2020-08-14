@@ -27,11 +27,11 @@ defmodule JuricListTest.TodoServer do
     assert entries(todo_server, @date1) == ["Dentist", "Movies"]
   end
 
-  # test "update_entry" do
-  #   TodoServer.update_entry(2, &Map.put(&1, :date, @date_updated))
+  test "update_entry", ~M{todo_server} do
+    TodoServer.update_entry(todo_server, 2, &Map.put(&1, :date, @date_updated))
 
-  #   assert entries(@date_updated) == ["Shopping"]
-  # end
+    assert entries(todo_server, @date_updated) == ["Shopping"]
+  end
 
   # test "delete_entry" do
   #   TodoServer.delete_entry(2)
