@@ -1,78 +1,50 @@
 defmodule JuricList.TodoServer do
 
-  alias JuricList.{TodoList}
-
-  @me __MODULE__
+  alias JuricList.{TodoList, ServerProcess}
 
   def start() do
-    spawn(fn ->
-      Process.register(self(), @me)
-
-      loop(TodoList.new())
-    end)
+    ServerProcess.start(__MODULE__)
   end
 
-  def finish() do
-    send(@me, :finish)
+  def add_entry(pid, entry) do
+    ServerProcess.cast(pid, {:add_entry, entry})
   end
 
-  def add_entry(entry) do
-    send(@me, {:add_entry, entry})
+  def update_entry(pid, id, updater_fun) do
+    ServerProcess.cast(pid, {:update_entry, id, updater_fun})
   end
 
-  def update_entry(id, updater_fun) do
-    send(@me, {:update_entry, id, updater_fun})
+  def delete_entry(pid, id) do
+    ServerProcess.cast(pid, {:delete_entry, id})
   end
 
-  def delete_entry(id) do
-    send(@me, {:delete_entry, id})
-  end
-
-  def entries(date) do
-    send(@me, {:entries, self(), date})
-
-    receive do
-      {:entries_reply, entries} -> entries
-    after
-      5000 -> {:error, :timeout}
-    end
+  def entries(pid, date) do
+    ServerProcess.call(pid, {:entries, date})
   end
 
 
-  defp loop(todo_list) do
-    todo_list =
-      receive do
-        message -> process_message(todo_list, message)
-      end
-
-    case todo_list do
-      :finish ->
-        :ok
-
-      _ ->
-        loop(todo_list)
-    end
+  def init() do
+    TodoList.new()
   end
 
-  defp process_message(_todo_list, :finish) do
-    :finish
-  end
-
-  defp process_message(todo_list, {:add_entry, entry}) do
+  def handle_cast({:add_entry, entry}, todo_list) do
     TodoList.add_entry(todo_list, entry)
   end
 
-  defp process_message(todo_list, {:update_entry, id, updater_fun}) do
+  def handle_cast({:update_entry, id, updater_fun}, todo_list) do
     TodoList.update_entry(todo_list, id, updater_fun)
   end
 
-  defp process_message(todo_list, {:delete_entry, id}) do
+  def handle_cast({:delete_entry, id}, todo_list) do
     TodoList.delete_entry(todo_list, id)
   end
 
-  defp process_message(todo_list, {:entries, caller, date}) do
-    send(caller, {:entries_reply, TodoList.entries(todo_list, date)})
+  def handle_call({:entries, date}, todo_list) do
+    {TodoList.entries(todo_list, date), todo_list}
+  end
 
-    todo_list
+
+  defp process_message(_todo_list, :finish) do
+    :finish
   end
 end
