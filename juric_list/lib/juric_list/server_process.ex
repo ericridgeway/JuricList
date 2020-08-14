@@ -8,7 +8,7 @@ defmodule JuricList.ServerProcess do
   end
 
   def call(pid, request) do
-    send(pid, {request, self()})
+    send(pid, {:call, request, self()})
 
     receive do
       {:response, response} ->
@@ -22,7 +22,7 @@ defmodule JuricList.ServerProcess do
 
   defp loop(callback_module, state) do
     receive do
-      {request, caller} ->
+      {:call, request, caller} ->
         {response, new_state} =
           callback_module.handle_call(request, state)
 
