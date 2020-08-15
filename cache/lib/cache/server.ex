@@ -10,7 +10,7 @@ defmodule Cache.Server do
 
   @impl GenServer
   def handle_call({:server_process, todo_list_name}, _from, state) do
-    with state <- Impl.add_if_doesnt_exist(state, todo_list_name),
+    with state <- Impl.put_if_doesnt_exist(state, todo_list_name),
          todo_server <- Impl.get(state, todo_list_name)
     do
       state
