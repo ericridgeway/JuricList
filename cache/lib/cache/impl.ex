@@ -2,7 +2,6 @@ defmodule Cache.Impl do
 
   defdelegate new(), to: Map
   defdelegate fetch(map, key), to: Map
-  defdelegate put(map, key, value), to: Map
 
   def add_if_doesnt_exist(state, todo_list_name) do
     Map.put_new_lazy(state, todo_list_name, fn ->
