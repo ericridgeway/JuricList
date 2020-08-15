@@ -1,8 +1,6 @@
-defmodule JuricListTest.TodoServer do
+defmodule TodoServerTest do
   use ExUnit.Case
   import ShorterMaps
-
-  alias JuricList.{TodoServer}
 
   @date1 ~D[2018-12-19]
   @date2 ~D[2018-12-20]

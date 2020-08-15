@@ -45,6 +45,7 @@ defmodule JuricList.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:shorter_maps, "~> 2.0"},
+      {:todo_list, path: "../todo_list/"},
     ]
   end
 

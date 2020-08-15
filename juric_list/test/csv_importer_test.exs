@@ -1,7 +1,7 @@
 defmodule JuricListTest.CsvImporter do
   use ExUnit.Case
 
-  alias JuricList.{CsvImporter, TodoList}
+  alias JuricList.{CsvImporter}
 
   test "import" do
     todo_list = CsvImporter.import("#{__DIR__}/todos.csv")
