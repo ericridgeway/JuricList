@@ -10,9 +10,20 @@ defmodule Cache.Server do
 
   @impl GenServer
   def handle_call({:server_process, todo_list_name}, _from, state) do
-    {state, todo_server} = Impl.get_existing_or_make_new(state, todo_list_name)
+    state = Impl.add_if_doesnt_exist(state, todo_list_name)
+    todo_server = Impl.fetch!(state, todo_list_name)
 
     {:reply, todo_server, state}
   end
 end
+  # def handle_call({:server_process, todo_list_name}, _from, state) do
+  #   state
+  #   |> Impl.add_if_doesnt_exist(todo_list_name)
+  #   |> reply(Impl.fetch!(state, todo_list_name))
+  # end
 
+
+  # defp reply(state, msg) do
+  #   {:reply, msg, state}
+  # end
+# e
