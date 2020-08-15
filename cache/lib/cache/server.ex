@@ -13,7 +13,15 @@ defmodule Cache.Server do
     with state <- Impl.add_if_doesnt_exist(state, todo_list_name),
          {:ok, todo_server} <- Impl.fetch(state, todo_list_name)
     do
-      {:reply, todo_server, state}
+      state
+      |> reply(todo_server)
+    else
+      error -> reply(state, error)
     end
+  end
+
+
+  defp reply(state, msg) do
+    {:reply, msg, state}
   end
 end
