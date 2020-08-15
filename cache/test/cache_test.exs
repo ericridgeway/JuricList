@@ -1,21 +1,31 @@
 defmodule CacheTest do
   use ExUnit.Case
+  import ShorterMaps
 
-  test "start() and server_process(..)" do
+  setup do
+    # {:ok, cache} = start_supervised(Cache)
     {:ok, cache} = Cache.start()
 
     bob_pid = Cache.server_process(cache, "bob")
     alice_pid = Cache.server_process(cache, "alice")
 
-    # bob_pid_again = Cache.server_process(cache, "bob")
+    ~M{cache, bob_pid, alice_pid}
+  end
 
-    cache
-    |> :sys.get_state()
-    |> IO.inspect(label: "cache state")
+  test "start() and server_process(..)", ~M{_cache, bob_pid, alice_pid} do
+    # cache
+    # |> :sys.get_state()
+    # |> IO.inspect(label: "cache state")
 
     assert bob_pid != alice_pid
-    # assert bob_pid == bob_pid_again
   end
+
+  # test "", ~M{cache, bob_pid, alice_pid} do
+  #   bob_pid_again = Cache.server_process(cache, "bob")
+
+  #   assert bob_pid == bob_pid_again
+  # end
+
 
   # test "TODO" do
   # TODO start_supervised thing in setup block prob
