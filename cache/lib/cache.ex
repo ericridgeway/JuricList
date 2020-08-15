@@ -1,7 +1,4 @@
 defmodule Cache do
-  # defdelegate start(), to: Cache.Impl
-  # defdelegate server_process(server_pid, something), to: Cache.Impl
-
   def start() do
     GenServer.start(__MODULE__.Server, nil)
   end
