@@ -16,14 +16,3 @@ defmodule Cache.Server do
     {:reply, todo_server, state}
   end
 end
-  # def handle_call({:server_process, todo_list_name}, _from, state) do
-  #   state
-  #   |> Impl.add_if_doesnt_exist(todo_list_name)
-  #   |> reply(Impl.fetch!(state, todo_list_name))
-  # end
-
-
-  # defp reply(state, msg) do
-  #   {:reply, msg, state}
-  # end
-# e
