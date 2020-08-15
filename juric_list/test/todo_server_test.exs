@@ -9,11 +9,11 @@ defmodule JuricListTest.TodoServer do
   @date_updated ~D[2020-01-01]
 
   setup do
-    todo_server = TodoServer.start()
+    {:ok, todo_server} = TodoServer.start()
 
-    TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
-    TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
-    TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
+    :ok = TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
+    :ok = TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
+    :ok = TodoServer.add_entry(todo_server, %{date: @date1, title: "Movies"})
 
     ~M{todo_server}
   end
@@ -23,13 +23,13 @@ defmodule JuricListTest.TodoServer do
   end
 
   test "update_entry", ~M{todo_server} do
-    TodoServer.update_entry(todo_server, 2, &Map.put(&1, :date, @date_updated))
+    :ok = TodoServer.update_entry(todo_server, 2, &Map.put(&1, :date, @date_updated))
 
     assert entries(todo_server, @date_updated) == ["Shopping"]
   end
 
   test "delete_entry", ~M{todo_server} do
-    TodoServer.delete_entry(todo_server, 2)
+    :ok = TodoServer.delete_entry(todo_server, 2)
 
     assert entries(todo_server, @date2) == []
   end
