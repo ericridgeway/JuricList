@@ -20,11 +20,11 @@ defmodule CacheTest do
     assert bob_pid != alice_pid
   end
 
-  # test "", ~M{cache, bob_pid, alice_pid} do
-  #   bob_pid_again = Cache.server_process(cache, "bob")
+  test "Asking for same name gets original pid, doesn't delete and make new", ~M{cache, bob_pid, alice_pid} do
+    bob_pid_again = Cache.server_process(cache, "bob")
 
-  #   assert bob_pid == bob_pid_again
-  # end
+    assert bob_pid == bob_pid_again
+  end
 
 
   # test "TODO" do
