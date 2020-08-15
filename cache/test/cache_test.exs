@@ -6,21 +6,18 @@ defmodule CacheTest do
     # {:ok, cache} = start_supervised(Cache)
     {:ok, cache} = Cache.start()
 
-    bob_pid = Cache.server_process(cache, "bob")
-    alice_pid = Cache.server_process(cache, "alice")
-
-    ~M{cache, bob_pid, alice_pid}
+    ~M{cache}
   end
 
-  test "start() and server_process(..)", ~M{_cache, bob_pid, alice_pid} do
-    # cache
-    # |> :sys.get_state()
-    # |> IO.inspect(label: "cache state")
+  test "start() and server_process(..)", ~M{cache} do
+    bob_pid = Cache.server_process(cache, "bob")
+    alice_pid = Cache.server_process(cache, "alice")
 
     assert bob_pid != alice_pid
   end
 
-  test "Asking for same name gets original pid, doesn't delete and make new", ~M{cache, bob_pid, alice_pid} do
+  test "Asking for same name gets original pid, doesn't delete and make new", ~M{cache} do
+    bob_pid = Cache.server_process(cache, "bob")
     bob_pid_again = Cache.server_process(cache, "bob")
 
     assert bob_pid == bob_pid_again
@@ -40,3 +37,8 @@ defmodule CacheTest do
   #   assert entry == reply_entry
   # end
 end
+
+    # cache
+    # |> :sys.get_state()
+    # |> IO.inspect(label: "cache state")
+
