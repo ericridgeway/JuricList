@@ -1,8 +1,6 @@
 defmodule JuricList.TodoServer.Server do
   use GenServer
 
-  alias JuricList.{TodoList}
-
   def init(_init_arg) do
     {:ok, TodoList.new()}
   end

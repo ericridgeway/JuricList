@@ -1,7 +1,5 @@
-defmodule JuricList.TodoList do
+defmodule TodoList do
   import ShorterMaps
-
-  alias JuricList.{TodoList}
 
   defstruct auto_id: 1, entries: %{}
 

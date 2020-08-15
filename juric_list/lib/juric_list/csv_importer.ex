@@ -1,8 +1,6 @@
 defmodule JuricList.CsvImporter do
   import ShorterMaps
 
-  alias JuricList.{TodoList}
-
   def import(file) do
     file
     |> File.stream!()
