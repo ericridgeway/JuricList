@@ -5,14 +5,10 @@ defmodule Cache.Impl do
   defdelegate put(map, key, value), to: Map
 
   def add_if_doesnt_exist(state, todo_list_name) do
-    case fetch(state, todo_list_name) do
-      {:ok, _value} ->
-        state
-
-      _ ->
-        {:ok, new_server} = TodoServer.start()
-        put(state, todo_list_name, new_server)
-    end
+    Map.put_new_lazy(state, todo_list_name, fn ->
+      {:ok, new_server} = TodoServer.start()
+      new_server
+    end)
   end
 end
 
