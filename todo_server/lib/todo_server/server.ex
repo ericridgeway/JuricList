@@ -1,4 +1,4 @@
-defmodule JuricList.TodoServer.Server do
+defmodule TodoServer.Server do
   use GenServer
 
   def init(_init_arg) do
@@ -21,3 +21,4 @@ defmodule JuricList.TodoServer.Server do
     {:reply, TodoList.entries(todo_list, date), todo_list}
   end
 end
+

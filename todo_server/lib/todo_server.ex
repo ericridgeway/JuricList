@@ -1,4 +1,4 @@
-defmodule JuricList.TodoServer do
+defmodule TodoServer do
 
   def start() do
     GenServer.start(__MODULE__.Server, nil)
