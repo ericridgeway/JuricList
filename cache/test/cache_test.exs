@@ -3,8 +3,8 @@ defmodule CacheTest do
   import ShorterMaps
 
   setup do
-    # {:ok, cache} = start_supervised(Cache)
     {:ok, cache} = Cache.start()
+    # {:ok, cache} = start_supervised(Cache)
 
     ~M{cache}
   end

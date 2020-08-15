@@ -1,4 +1,5 @@
 defmodule Cache do
+
   def start() do
     GenServer.start(__MODULE__.Server, nil)
   end
