@@ -24,18 +24,18 @@ defmodule CacheTest do
   end
 
 
-  # test "TODO" do
-  # TODO start_supervised thing in setup block prob
-  #   entry = %{date: ~D[2018-12-19], title: "Dentist"}
-  #   :ok = TodoServer.add_entry(bob_pid, entry)
+  test "Confirm we're getting real todoservers", ~M{cache} do
+    bob_pid = Cache.server_process(cache, "bob")
+    entry = %{date: ~D[2018-12-19], title: "Dentist"}
 
-  #   # TODO extract entries |> titles helper function I had in one of the other tests? or just always take entries and pull what you need from them...?
-  #   reply_entry =
-  #     TodoServer.entries(bob_pid, entry.date)
-  #     |> hd()
+    :ok = TodoServer.add_entry(bob_pid, entry)
 
-  #   assert entry == reply_entry
-  # end
+    reply_entry =
+      TodoServer.entries(bob_pid, entry.date)
+      |> hd()
+
+    assert reply_entry.title == "Dentist"
+  end
 end
 
     # cache
