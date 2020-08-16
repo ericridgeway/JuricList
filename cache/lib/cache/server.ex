@@ -5,6 +5,9 @@ defmodule Cache.Server do
 
   @impl GenServer
   def init(_init_arg) do
+    # TODO temp "hack", eventually book will have us switch to Application supervisor start stuff I assume
+    Database.start()
+
     {:ok, Impl.new()}
   end
 
