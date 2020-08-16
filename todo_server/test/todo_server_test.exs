@@ -38,6 +38,28 @@ defmodule TodoServerTest do
     assert TodoServer.name(todo_server) == "batman"
   end
 
+  # test "Saves state thru server restart/crash", ~M{cache} do
+  #   assert entries(todo_server, @date1) == ["Dentist", "Movies"]
+
+  #   # restart server
+  #   {:ok, new_todo_server} = TodoServer.start("robin")
+  #   assert entries(new_todo_server, @date1) == ["Dentist", "Movies"]
+
+  #   # TODO move these tests to todoserver once database is being started at right time
+  #   #   maybe. It should work tho. Database should be required to be started whenever
+  #   #   a server is started, in the todoserver mix requirements should be database is running
+
+  #   entry = %{date: ~D[2018-12-19], title: "Dentist"}
+
+  #   :ok = TodoServer.add_entry(bob_pid, entry)
+
+  #   reply_entry =
+  #     TodoServer.entries(bob_pid, entry.date)
+  #     |> hd()
+
+  #   assert reply_entry.title == "Dentist"
+
+  # end
 
   defp entries(todo_server, date) do
     TodoServer.entries(todo_server, date)

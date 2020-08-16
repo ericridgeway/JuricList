@@ -42,17 +42,4 @@ defmodule CacheTest do
 
     assert TodoServer.name(bob_pid) == "bob"
   end
-
-  # test "Saves state thru server restart/crash", ~M{todo_server} do
-  #   assert entries(todo_server, @date1) == ["Dentist", "Movies"]
-
-  #   # restart server
-  #   {:ok, new_todo_server} = TodoServer.start("robin")
-  #   assert entries(new_todo_server, @date1) == ["Dentist", "Movies"]
-  # end
 end
-
-    # cache
-    # |> :sys.get_state()
-    # |> IO.inspect(label: "cache state")
-
