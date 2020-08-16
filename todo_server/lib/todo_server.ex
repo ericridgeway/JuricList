@@ -20,4 +20,8 @@ defmodule TodoServer do
   def entries(pid, date) do
     GenServer.call(pid, {:entries, date})
   end
+
+  def name(pid) do
+    GenServer.call(pid, :name)
+  end
 end

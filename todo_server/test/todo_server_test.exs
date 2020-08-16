@@ -35,13 +35,7 @@ defmodule TodoServerTest do
   test "TodoServer knows its own name" do
     {:ok, todo_server} = TodoServer.start("batman")
 
-    state = :sys.get_state(todo_server)
-    |> IO.inspect(label: "")
-
-    assert state.name == "batman"
-
-    # TODO kill direct state check above and add exported function
-    # assert TodoServer.name(todo_server) == "batman"
+    assert TodoServer.name(todo_server) == "batman"
   end
 
 

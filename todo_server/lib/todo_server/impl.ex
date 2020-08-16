@@ -29,4 +29,8 @@ defmodule TodoServer.Impl do
   def entries(state, date) do
     TodoList.entries(state.todo_list, date)
   end
+
+  def name(state) do
+    state.name
+  end
 end

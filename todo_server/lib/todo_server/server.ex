@@ -33,6 +33,14 @@ defmodule TodoServer.Server do
     end
   end
 
+  def handle_call(:name, _sender, state) do
+    with name <- Impl.name(state)
+    do
+      state
+      |> reply(name)
+    end
+  end
+
 
   defp noreply(state) do
     {:noreply, state}
