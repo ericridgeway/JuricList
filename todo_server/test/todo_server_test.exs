@@ -31,6 +31,11 @@ defmodule TodoServerTest do
 
     assert entries(todo_server, @date2) == []
   end
+  # test "TodoServer knows its own name" do
+  #   {:ok, todo_server} = TodoServer.start("batman")
+
+  #   assert TodoServer.name(todo_server) == "batman"
+  # end
 
 
   defp entries(todo_server, date) do
