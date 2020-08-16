@@ -1,24 +1,44 @@
 defmodule TodoServer.Server do
   use GenServer
 
+  alias TodoServer.{Impl}
+
   def init(_init_arg) do
-    {:ok, TodoList.new()}
+    {:ok, Impl.new()}
   end
 
-  def handle_cast({:add_entry, entry}, todo_list) do
-    {:noreply, TodoList.add_entry(todo_list, entry)}
+  def handle_cast({:add_entry, entry}, state) do
+    state
+    |> Impl.add_entry(entry)
+    |> noreply()
   end
 
-  def handle_cast({:update_entry, id, updater_fun}, todo_list) do
-    {:noreply, TodoList.update_entry(todo_list, id, updater_fun)}
+  def handle_cast({:update_entry, id, updater_fun}, state) do
+    state
+    |> Impl.update_entry(id, updater_fun)
+    |> noreply()
   end
 
-  def handle_cast({:delete_entry, id}, todo_list) do
-    {:noreply, TodoList.delete_entry(todo_list, id)}
+  def handle_cast({:delete_entry, id}, state) do
+    state
+    |> Impl.delete_entry(id)
+    |> noreply()
   end
 
-  def handle_call({:entries, date}, _sender, todo_list) do
-    {:reply, TodoList.entries(todo_list, date), todo_list}
+  def handle_call({:entries, date}, _sender, state) do
+    with entries <- Impl.entries(state, date)
+    do
+      state
+      |> reply(entries)
+    end
+  end
+
+
+  defp noreply(state) do
+    {:noreply, state}
+  end
+
+  defp reply(state, msg) do
+    {:reply, msg, state}
   end
 end
-
