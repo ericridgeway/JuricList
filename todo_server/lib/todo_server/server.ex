@@ -3,8 +3,8 @@ defmodule TodoServer.Server do
 
   alias TodoServer.{Impl}
 
-  def init(_init_arg) do
-    {:ok, Impl.new()}
+  def init(name) do
+    {:ok, Impl.new(name)}
   end
 
   def handle_cast({:add_entry, entry}, state) do
