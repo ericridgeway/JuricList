@@ -1,7 +1,6 @@
 defmodule TodoServer do
 
-  # TODO temp default name until update old api in tests to always pass name
-  def start(name \\ "todoNameDude") do
+  def start(name) do
     GenServer.start(__MODULE__.Server, name)
   end
 

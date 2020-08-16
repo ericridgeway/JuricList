@@ -7,7 +7,7 @@ defmodule TodoServerTest do
   @date_updated ~D[2020-01-01]
 
   setup do
-    {:ok, todo_server} = TodoServer.start()
+    {:ok, todo_server} = TodoServer.start("robin")
 
     :ok = TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
     :ok = TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
