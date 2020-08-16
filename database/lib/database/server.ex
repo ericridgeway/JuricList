@@ -16,19 +16,19 @@ defmodule Database.Server do
   end
 
   @impl GenServer
+  def handle_cast({:delete, key}, state) do
+    state
+    |> Impl.delete(key)
+    |> noreply()
+  end
+
+  @impl GenServer
   def handle_call({:get, key}, _from, state) do
     with data <- Impl.get(state, key)
     do
       state
       |> reply(data)
     end
-  end
-
-  @impl GenServer
-  def handle_cast({:delete, key}, state) do
-    state
-    |> Impl.delete(key)
-    |> noreply()
   end
 
 

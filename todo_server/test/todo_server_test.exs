@@ -38,19 +38,19 @@ defmodule TodoServerTest do
     assert TodoServer.name(todo_server) == "batman"
   end
 
-  test "Saves state thru server restart/crash", ~M{todo_server} do
-    assert entries(todo_server, @date1) == ["Dentist", "Movies"]
+  # test "Saves state thru server restart/crash", ~M{todo_server} do
+  #   assert entries(todo_server, @date1) == ["Dentist", "Movies"]
 
-    # restart server
-    {:ok, new_todo_server} = TodoServer.start("robin")
-    assert entries(new_todo_server, @date1) == ["Dentist", "Movies"]
+  #   # restart server
+  #   {:ok, new_todo_server} = TodoServer.start("robin")
+  #   assert entries(new_todo_server, @date1) == ["Dentist", "Movies"]
 
-    # TODO ok, add the database-read check (re next section of book)
-    # TODO after that, do all the other possible commands, delete_entry etc,
-    # and confirm they're all updateing the database too
-    #   TODO NOTE, that seems duplicate'y. Maybe I can find a way that they all
-    #   do it automatically. Look at TodoServer.Impl and decide after in a refactor prob
-  end
+  #   # TODO ok, add the database-read check (re next section of book)
+  #   # TODO after that, do all the other possible commands, delete_entry etc,
+  #   # and confirm they're all updateing the database too
+  #   #   TODO NOTE, that seems duplicate'y. Maybe I can find a way that they all
+  #   #   do it automatically. Look at TodoServer.Impl and decide after in a refactor prob
+  # end
 
   defp entries(todo_server, date) do
     TodoServer.entries(todo_server, date)
