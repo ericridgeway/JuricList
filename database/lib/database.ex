@@ -3,7 +3,6 @@ defmodule Database do
   @me __MODULE__
 
   def start() do
-    IO.puts("STARTING db")
     GenServer.start(__MODULE__.Server, nil, name: @me)
   end
 

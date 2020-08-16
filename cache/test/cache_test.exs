@@ -36,6 +36,20 @@ defmodule CacheTest do
 
     assert reply_entry.title == "Dentist"
   end
+
+  test "Cache passes name to todoserver when creating it", ~M{cache} do
+    bob_pid = Cache.server_process(cache, "bob")
+
+    assert TodoServer.name(bob_pid) == "bob"
+  end
+
+  # test "Saves state thru server restart/crash", ~M{todo_server} do
+  #   assert entries(todo_server, @date1) == ["Dentist", "Movies"]
+
+  #   # restart server
+  #   {:ok, new_todo_server} = TodoServer.start("robin")
+  #   assert entries(new_todo_server, @date1) == ["Dentist", "Movies"]
+  # end
 end
 
     # cache
