@@ -1,14 +1,15 @@
 defmodule Database do
 
+  @me __MODULE__
   def start() do
-    {:ok, -1}
+    GenServer.start(__MODULE__.Server, nil, name: @me)
   end
 
-  def store(key, value) do
-    :ok
+  def store(key, data) do
+    GenServer.cast(@me, {:store, key, data})
   end
 
   def get(key) do
-    "is batman"
+    GenServer.call(@me, {:get, key})
   end
 end
