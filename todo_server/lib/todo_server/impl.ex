@@ -7,7 +7,7 @@ defmodule TodoServer.Impl do
 
   def new(name) do
     %Impl{
-      name: -1,
+      name: name,
       todo_list: TodoList.new(),
     }
   end
