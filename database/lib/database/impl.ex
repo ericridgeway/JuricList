@@ -5,7 +5,8 @@ defmodule Database.Impl do
   # TODO @grp Wait, he's not using state. What's the point of GenServer'ing it then???
   def new() do
     File.mkdir_p!(@db_folder)
-    nil
+
+    :ok
   end
 
   def store(_state, key, data) do
@@ -13,6 +14,8 @@ defmodule Database.Impl do
     key
     |> file_name()
     |> File.write!(:erlang.term_to_binary(data))
+
+    :ok
   end
 
   def get(_state, key) do
@@ -22,6 +25,14 @@ defmodule Database.Impl do
 
       _ -> nil
     end
+  end
+
+  def delete(_state, key) do
+    key
+    |> file_name()
+    |> File.rm()
+
+    :ok
   end
 
 

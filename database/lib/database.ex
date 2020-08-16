@@ -13,4 +13,8 @@ defmodule Database do
   def get(key) do
     GenServer.call(@me, {:get, key})
   end
+
+  def delete(key) do
+    GenServer.cast(@me, {:delete, key})
+  end
 end

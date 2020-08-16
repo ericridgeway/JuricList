@@ -24,6 +24,13 @@ defmodule Database.Server do
     end
   end
 
+  @impl GenServer
+  def handle_cast({:delete, key}, state) do
+    state
+    |> Impl.delete(key)
+    |> noreply()
+  end
+
 
   defp noreply(state) do
     {:noreply, state}
