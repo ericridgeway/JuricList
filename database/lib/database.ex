@@ -1,6 +1,7 @@
 defmodule Database do
 
   @me __MODULE__
+
   def start() do
     GenServer.start(__MODULE__.Server, nil, name: @me)
   end
