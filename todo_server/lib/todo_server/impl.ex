@@ -17,7 +17,6 @@ defmodule TodoServer.Impl do
 
     state = update_in(state.todo_list, &TodoList.add_entry(&1, entry))
     Database.store(state.name, state.todo_list)
-    |> IO.inspect(label: "")
 
     state
   end
