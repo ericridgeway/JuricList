@@ -1,7 +1,7 @@
 defmodule DatabaseTest do
   use ExUnit.Case
 
-  test "TODO" do
+  test "Basic store and retrieve, not testing thru server crash yet" do
     {:ok, _database} = Database.start()
 
     :ok = Database.store(:abed, "is batman")
