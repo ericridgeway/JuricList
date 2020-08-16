@@ -25,6 +25,7 @@ defmodule TodoServer.MixProject do
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
       {:shorter_maps, "~> 2.0"},
       {:todo_list, path: "../todo_list/"},
+      {:database, path: "../database/"},
     ]
   end
 end
