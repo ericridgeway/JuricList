@@ -16,29 +16,18 @@ defmodule TodoServer.Impl do
   end
 
   def add_entry(state, entry) do
-    # %{state | todo_list: TodoList.add_entry(state.todo_list, entry)}
-
-    state = update_in(state.todo_list, &TodoList.add_entry(&1, entry))
-
-    Database.store(state.name, state.todo_list)
-
-    state
+    update_in(state.todo_list, &TodoList.add_entry(&1, entry))
+    |> db_save()
   end
 
   def update_entry(state, id, updater_fun) do
-    state = update_in(state.todo_list, &TodoList.update_entry(&1, id, updater_fun))
-
-    Database.store(state.name, state.todo_list)
-
-    state
+    update_in(state.todo_list, &TodoList.update_entry(&1, id, updater_fun))
+    |> db_save()
   end
 
   def delete_entry(state, id) do
-    state = update_in(state.todo_list, &TodoList.delete_entry(&1, id))
-
-    Database.store(state.name, state.todo_list)
-
-    state
+    update_in(state.todo_list, &TodoList.delete_entry(&1, id))
+    |> db_save()
   end
 
 
@@ -49,4 +38,13 @@ defmodule TodoServer.Impl do
   def name(state) do
     state.name
   end
+
+
+  defp db_save(state) do
+    :ok = Database.store(state.name, state.todo_list)
+
+    state
+  end
 end
+
+# TODO @grp is there a way to "new abstraction layer" pull out the db stuff from here. It's clearly seperate from the other logic. But I need one to always happen when the other does. It would be nice to get rid of all the |> db_save() 's and the db retrieve-if-exists steps
