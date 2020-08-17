@@ -10,8 +10,13 @@ defmodule TodoServerTest do
     Database.start()
 
     :ok = Database.delete("robin")
+    :ok = Database.delete("robin")
+    # TODO @William why oh why is sometimes robin not empty unless I process.sleep or double delete here
 
     {:ok, todo_server} = TodoServer.start("robin")
+
+    :sys.get_state(todo_server)
+    |> IO.inspect(label: "state, ROBIN SHOULD BE EMPTY")
 
     :ok = TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
     :ok = TodoServer.add_entry(todo_server, %{date: @date2, title: "Shopping"})
@@ -37,6 +42,7 @@ defmodule TodoServerTest do
   end
 
   test "TodoServer knows its own name" do
+    :ok = Database.delete("batman")
     {:ok, todo_server} = TodoServer.start("batman")
 
     assert TodoServer.name(todo_server) == "batman"
