@@ -9,18 +9,19 @@ defmodule Database.Server do
   end
 
   @impl GenServer
-  def handle_cast({:store, key, data}, state) do
+  def handle_call({:store, key, data}, _from, state) do
     state
     |> Impl.store(key, data)
-    |> noreply()
+    |> reply(:ok)
   end
 
   @impl GenServer
-  def handle_cast({:delete, key}, state) do
+  def handle_call({:delete, key}, _from, state) do
     state
     |> Impl.delete(key)
-    |> noreply()
+    |> reply(:ok)
   end
+
 
   @impl GenServer
   def handle_call({:get, key}, _from, state) do
@@ -31,10 +32,6 @@ defmodule Database.Server do
     end
   end
 
-
-  defp noreply(state) do
-    {:noreply, state}
-  end
 
   defp reply(state, msg) do
     {:reply, msg, state}

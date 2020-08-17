@@ -7,14 +7,14 @@ defmodule Database do
   end
 
   def store(key, data) do
-    GenServer.cast(@me, {:store, key, data})
+    GenServer.call(@me, {:store, key, data})
+  end
+
+  def delete(key) do
+    GenServer.call(@me, {:delete, key})
   end
 
   def get(key) do
     GenServer.call(@me, {:get, key})
-  end
-
-  def delete(key) do
-    GenServer.cast(@me, {:delete, key})
   end
 end
