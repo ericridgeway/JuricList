@@ -49,9 +49,9 @@ defmodule TodoServerTest do
   test "Saves state thru server restart/crash", ~M{todo_server} do
     assert entries(todo_server, @date1) == ["Dentist", "Movies"]
 
-    # restart server
-    {:ok, new_todo_server} = TodoServer.start("robin")
-    assert entries(new_todo_server, @date1) == ["Dentist", "Movies"]
+    todo_server = restart_server("robin")
+
+    assert entries(todo_server, @date1) == ["Dentist", "Movies"]
   end
 
   test "Server crash, also saved: update", ~M{todo_server} do
@@ -59,8 +59,7 @@ defmodule TodoServerTest do
     :ok = TodoServer.update_entry(todo_server, 2, &Map.put(&1, :date, @date_updated))
     assert entries(todo_server, @date_updated) == ["Shopping"]
 
-    # TODO extract restart server
-    {:ok, todo_server} = TodoServer.start("robin")
+    todo_server = restart_server("robin")
 
     assert entries(todo_server, @date_updated) == ["Shopping"]
   end
@@ -68,6 +67,12 @@ defmodule TodoServerTest do
   defp entries(todo_server, date) do
     TodoServer.entries(todo_server, date)
     |> Enum.map(&Map.get(&1, :title))
+  end
+
+  defp restart_server(name) do
+    {:ok, todo_server} = TodoServer.start(name)
+
+    todo_server
   end
 end
 
