@@ -36,7 +36,7 @@ defmodule TodoServer.Impl do
   def delete_entry(state, id) do
     state = update_in(state.todo_list, &TodoList.delete_entry(&1, id))
 
-    # Database.store(state.name, state.todo_list)
+    Database.store(state.name, state.todo_list)
 
     state
   end

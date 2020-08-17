@@ -64,6 +64,16 @@ defmodule TodoServerTest do
     assert entries(todo_server, @date_updated) == ["Shopping"]
   end
 
+  test "Server crash, also saved: delete", ~M{todo_server} do
+    assert entries(todo_server, @date2) == ["Shopping"]
+    :ok = TodoServer.delete_entry(todo_server, 2)
+    assert entries(todo_server, @date2) == []
+
+    todo_server = restart_server("robin")
+
+    assert entries(todo_server, @date2) == []
+  end
+
   defp entries(todo_server, date) do
     TodoServer.entries(todo_server, date)
     |> Enum.map(&Map.get(&1, :title))
