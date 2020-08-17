@@ -4,9 +4,6 @@ defmodule TodoServer.Server do
   alias TodoServer.{Impl}
 
   def init(name) do
-      # TODO temp "hack", eventually book will have us switch to Application supervisor start stuff I assume
-    Database.start()
-
     {:ok, Impl.new(name)}
   end
 

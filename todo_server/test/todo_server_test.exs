@@ -7,6 +7,11 @@ defmodule TodoServerTest do
   @date_updated ~D[2020-01-01]
 
   setup do
+    Database.start()
+
+    :ok = Database.delete("robin")
+    :ok = Database.delete("robin")
+
     {:ok, todo_server} = TodoServer.start("robin")
 
     :ok = TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
@@ -33,27 +38,52 @@ defmodule TodoServerTest do
   end
 
   test "TodoServer knows its own name" do
+    :ok = Database.delete("batman")
     {:ok, todo_server} = TodoServer.start("batman")
 
     assert TodoServer.name(todo_server) == "batman"
   end
 
-  # test "Saves state thru server restart/crash", ~M{todo_server} do
-  #   assert entries(todo_server, @date1) == ["Dentist", "Movies"]
+  # TODO dif test file for database tests, or something. It's doubling all the add_entry delete_entry, edit_entry etc...
 
-  #   # restart server
-  #   {:ok, new_todo_server} = TodoServer.start("robin")
-  #   assert entries(new_todo_server, @date1) == ["Dentist", "Movies"]
+  test "Saves state thru server restart/crash", ~M{todo_server} do
+    assert entries(todo_server, @date1) == ["Dentist", "Movies"]
 
-  #   # TODO ok, add the database-read check (re next section of book)
-  #   # TODO after that, do all the other possible commands, delete_entry etc,
-  #   # and confirm they're all updateing the database too
-  #   #   TODO NOTE, that seems duplicate'y. Maybe I can find a way that they all
-  #   #   do it automatically. Look at TodoServer.Impl and decide after in a refactor prob
-  # end
+    todo_server = restart_server("robin")
+
+    assert entries(todo_server, @date1) == ["Dentist", "Movies"]
+  end
+
+  test "Server crash, also saved: update", ~M{todo_server} do
+    assert entries(todo_server, @date_updated) == []
+    :ok = TodoServer.update_entry(todo_server, 2, &Map.put(&1, :date, @date_updated))
+    assert entries(todo_server, @date_updated) == ["Shopping"]
+
+    todo_server = restart_server("robin")
+
+    assert entries(todo_server, @date_updated) == ["Shopping"]
+  end
+
+  test "Server crash, also saved: delete", ~M{todo_server} do
+    assert entries(todo_server, @date2) == ["Shopping"]
+    :ok = TodoServer.delete_entry(todo_server, 2)
+    assert entries(todo_server, @date2) == []
+
+    todo_server = restart_server("robin")
+
+    assert entries(todo_server, @date2) == []
+  end
 
   defp entries(todo_server, date) do
     TodoServer.entries(todo_server, date)
     |> Enum.map(&Map.get(&1, :title))
   end
+
+  defp restart_server(name) do
+    {:ok, todo_server} = TodoServer.start(name)
+
+    todo_server
+  end
 end
+
+  # @tag :skip

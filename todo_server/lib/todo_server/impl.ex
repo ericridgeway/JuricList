@@ -6,9 +6,12 @@ defmodule TodoServer.Impl do
   alias __MODULE__
 
   def new(name) do
+    todo_list =
+      Database.get(name) || TodoList.new()
+
     %Impl{
       name: name,
-      todo_list: TodoList.new(),
+      todo_list: todo_list,
     }
   end
 
@@ -16,17 +19,26 @@ defmodule TodoServer.Impl do
     # %{state | todo_list: TodoList.add_entry(state.todo_list, entry)}
 
     state = update_in(state.todo_list, &TodoList.add_entry(&1, entry))
+
     Database.store(state.name, state.todo_list)
 
     state
   end
 
   def update_entry(state, id, updater_fun) do
-    update_in(state.todo_list, &TodoList.update_entry(&1, id, updater_fun))
+    state = update_in(state.todo_list, &TodoList.update_entry(&1, id, updater_fun))
+
+    Database.store(state.name, state.todo_list)
+
+    state
   end
 
   def delete_entry(state, id) do
-    update_in(state.todo_list, &TodoList.delete_entry(&1, id))
+    state = update_in(state.todo_list, &TodoList.delete_entry(&1, id))
+
+    Database.store(state.name, state.todo_list)
+
+    state
   end
 
 
