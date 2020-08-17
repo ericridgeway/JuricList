@@ -6,18 +6,12 @@ defmodule TodoServer.Impl do
   alias __MODULE__
 
   def new(name) do
-    Database.get(name)
-    |> IO.inspect(label: "database get for: #{name}")
-
-    # Database.get("someJerk")
-    # |> IO.inspect(label: "database get for: someJerk")
-    # asd =
-    #   Database.get(name) || :wasntThere
-    # IO.puts ""; require InspectVars; InspectVars.inspect([asd])
+    todo_list =
+      Database.get(name) || TodoList.new()
 
     %Impl{
       name: name,
-      todo_list: TodoList.new(),
+      todo_list: todo_list,
     }
   end
 

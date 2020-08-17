@@ -7,14 +7,16 @@ defmodule TodoServerTest do
   @date_updated ~D[2020-01-01]
 
   setup do
+    Database.start()
+
     :ok = Database.delete("robin")
+
     # TODO next ok problem is here. For some reason it's not being deleted here
     Process.sleep(500)
     # assert Database.get("robin") == nil
     # Oh motherf'r. I bet it's because of cast and not call I'm not getting error msg. I knew that was sketchy
     # And I'm thinking the problem is Database isn't Start'd at this point, lets test
     # TODO next Move Database.start to this setup block in the tests, super hack'y. We'll fix it when the supervisor stuff is in place
-    IO.puts "111111"; require InspectVars; InspectVars.inspect([])
     {:ok, todo_server} = TodoServer.start("robin")
 
     :ok = TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
@@ -46,10 +48,10 @@ defmodule TodoServerTest do
     assert TodoServer.name(todo_server) == "batman"
   end
 
+  # @tag :skip
   test "Saves state thru server restart/crash", ~M{todo_server} do
     assert entries(todo_server, @date1) == ["Dentist", "Movies"]
 
-    IO.puts "222"; require InspectVars; InspectVars.inspect([])
     # restart server
     {:ok, new_todo_server} = TodoServer.start("robin")
     assert entries(new_todo_server, @date1) == ["Dentist", "Movies"]
