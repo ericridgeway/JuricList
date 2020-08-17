@@ -13,6 +13,7 @@ defmodule TodoServerTest do
     # assert Database.get("robin") == nil
     # Oh motherf'r. I bet it's because of cast and not call I'm not getting error msg. I knew that was sketchy
     # And I'm thinking the problem is Database isn't Start'd at this point, lets test
+    # TODO next Move Database.start to this setup block in the tests, super hack'y. We'll fix it when the supervisor stuff is in place
     IO.puts "111111"; require InspectVars; InspectVars.inspect([])
     {:ok, todo_server} = TodoServer.start("robin")
 
