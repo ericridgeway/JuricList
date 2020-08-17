@@ -48,3 +48,8 @@ defmodule TodoServer.Impl do
 end
 
 # TODO @grp is there a way to "new abstraction layer" pull out the db stuff from here. It's clearly seperate from the other logic. But I need one to always happen when the other does. It would be nice to get rid of all the |> db_save() 's and the db retrieve-if-exists steps
+#
+# So, question summary:
+# 1- Proper way to test when there's external save/restore db stuff happening, wether file saves or ecto or whatever else. So test 2 doesn't try to run something that goes "hey, I should restore data that existed" even tho that's test 1's data and we don't want it to be restored
+#
+# 2- New module/abstraction layer for these 2 jobs combined, how do I seperate (above note)
