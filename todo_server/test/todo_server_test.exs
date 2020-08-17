@@ -11,12 +11,6 @@ defmodule TodoServerTest do
 
     :ok = Database.delete("robin")
 
-    # TODO next ok problem is here. For some reason it's not being deleted here
-    Process.sleep(500)
-    # assert Database.get("robin") == nil
-    # Oh motherf'r. I bet it's because of cast and not call I'm not getting error msg. I knew that was sketchy
-    # And I'm thinking the problem is Database isn't Start'd at this point, lets test
-    # TODO next Move Database.start to this setup block in the tests, super hack'y. We'll fix it when the supervisor stuff is in place
     {:ok, todo_server} = TodoServer.start("robin")
 
     :ok = TodoServer.add_entry(todo_server, %{date: @date1, title: "Dentist"})
@@ -55,12 +49,6 @@ defmodule TodoServerTest do
     # restart server
     {:ok, new_todo_server} = TodoServer.start("robin")
     assert entries(new_todo_server, @date1) == ["Dentist", "Movies"]
-
-    # TODO ok, add the database-read check (re next section of book)
-    # TODO after that, do all the other possible commands, delete_entry etc,
-    # and confirm they're all updateing the database too
-    #   TODO NOTE, that seems duplicate'y. Maybe I can find a way that they all
-    #   do it automatically. Look at TodoServer.Impl and decide after in a refactor prob
   end
 
   defp entries(todo_server, date) do
