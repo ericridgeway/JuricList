@@ -55,12 +55,14 @@ defmodule TodoServerTest do
   end
 
   test "Server crash, also saved: update", ~M{todo_server} do
+    assert entries(todo_server, @date_updated) == []
     :ok = TodoServer.update_entry(todo_server, 2, &Map.put(&1, :date, @date_updated))
+    assert entries(todo_server, @date_updated) == ["Shopping"]
 
     # TODO extract restart server
-    {:ok, new_todo_server} = TodoServer.start("robin")
+    {:ok, todo_server} = TodoServer.start("robin")
 
-    assert entries(new_todo_server, @date_updated) == ["Shopping"]
+    assert entries(todo_server, @date_updated) == ["Shopping"]
   end
 
   defp entries(todo_server, date) do

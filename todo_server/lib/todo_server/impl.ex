@@ -8,7 +8,6 @@ defmodule TodoServer.Impl do
   def new(name) do
     todo_list =
       Database.get(name) || TodoList.new()
-      # TodoList.new()
 
     %Impl{
       name: name,
@@ -29,7 +28,7 @@ defmodule TodoServer.Impl do
   def update_entry(state, id, updater_fun) do
     state = update_in(state.todo_list, &TodoList.update_entry(&1, id, updater_fun))
 
-    # Database.store(state.name, state.todo_list)
+    Database.store(state.name, state.todo_list)
 
     state
   end
