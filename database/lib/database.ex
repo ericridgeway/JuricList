@@ -3,16 +3,15 @@ defmodule Database do
 
   @me __MODULE__
 
-  # defdelegate start(), to: Worker
-  # defdelegate store(key, data), to: Worker
-  defdelegate delete(key), to: Worker
-  defdelegate get(key), to: Worker
-
   def start() do
     GenServer.start(__MODULE__.Server, nil, name: @me)
   end
 
   def store(key, data) do
     GenServer.call(@me, {:store, key, data})
+  end
+
+  def get(key) do
+    GenServer.call(@me, {:get, key})
   end
 end

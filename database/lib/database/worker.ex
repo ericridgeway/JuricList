@@ -1,20 +1,18 @@
 defmodule Database.Worker do
 
-  @me __MODULE__
-
   def start() do
-    GenServer.start(__MODULE__.Server, nil, name: @me)
+    GenServer.start(__MODULE__.Server, nil)
   end
 
-  def store(key, data) do
-    GenServer.call(@me, {:store, key, data})
+  def store(pid, key, data) do
+    GenServer.call(pid, {:store, key, data})
   end
 
-  def delete(key) do
-    GenServer.call(@me, {:delete, key})
+  def delete(pid, key) do
+    GenServer.call(pid, {:delete, key})
   end
 
-  def get(key) do
-    GenServer.call(@me, {:get, key})
+  def get(pid, key) do
+    GenServer.call(pid, {:get, key})
   end
 end

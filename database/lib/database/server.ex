@@ -10,10 +10,15 @@ defmodule Database.Server do
 
   @impl GenServer
   def handle_call({:store, key, data}, _from, state) do
-    with {reply, state} <- Impl.store(state, key, data) do
-      state
-      |> reply(reply)
-    end
+    state
+    |> Impl.store(key, data)
+    |> reply(:ok)
+  end
+
+  @impl GenServer
+  def handle_call({:get, key}, _from, state) do
+    state
+    |> reply(Impl.get(state, key))
   end
 
 
