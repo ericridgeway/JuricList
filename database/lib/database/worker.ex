@@ -1,4 +1,4 @@
-defmodule Database do
+defmodule Database.Worker do
 
   @me __MODULE__
 

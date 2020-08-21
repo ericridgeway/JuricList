@@ -1,4 +1,4 @@
-defmodule Database.Impl do
+defmodule Database.Worker.Impl do
 
   @db_folder "./persist"
 

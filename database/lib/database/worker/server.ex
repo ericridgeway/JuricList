@@ -1,7 +1,7 @@
-defmodule Database.Server do
+defmodule Database.Worker.Server do
   use GenServer
 
-  alias Database.{Impl}
+  alias Database.Worker.{Impl}
 
   @impl GenServer
   def init(_init_arg) do
