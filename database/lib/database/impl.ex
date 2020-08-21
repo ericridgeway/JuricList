@@ -19,6 +19,12 @@ defmodule Database.Impl do
     state
   end
 
+  def delete(state, key) do
+    :ok = Worker.delete(state.worker1, key)
+
+    state
+  end
+
   def get(state, key) do
     Worker.get(state.worker1, key)
   end

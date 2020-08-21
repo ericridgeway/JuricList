@@ -16,6 +16,13 @@ defmodule Database.Server do
   end
 
   @impl GenServer
+  def handle_call({:delete, key}, _from, state) do
+    state
+    |> Impl.delete(key)
+    |> reply(:ok)
+  end
+
+  @impl GenServer
   def handle_call({:get, key}, _from, state) do
     state
     |> reply(Impl.get(state, key))

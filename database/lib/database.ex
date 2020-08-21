@@ -1,6 +1,4 @@
 defmodule Database do
-  alias Database.{Worker}
-
   @me __MODULE__
 
   def start() do
@@ -13,5 +11,9 @@ defmodule Database do
 
   def get(key) do
     GenServer.call(@me, {:get, key})
+  end
+
+  def delete(key) do
+    GenServer.call(@me, {:delete, key})
   end
 end

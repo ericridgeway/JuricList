@@ -5,8 +5,8 @@ defmodule DatabaseTest do
     # {:ok, _database} = Database.start()
     Database.start()
 
-    :sys.get_state(Database)
-    |> IO.inspect(label: "")
+#     :sys.get_state(Database)
+#     |> IO.inspect(label: "")
 
     :ok
   end
@@ -19,11 +19,10 @@ defmodule DatabaseTest do
     assert Database.get("asd") == "morning"
   end
 
-  # TODO
-  # test "Delete key" do
-  #   :ok = Database.store(:troy, "morning")
-  #   :ok = Database.delete(:troy)
+  test "Delete key" do
+    :ok = Database.store(:troy, "morning")
+    :ok = Database.delete(:troy)
 
-  #   assert Database.get(:troy) == nil
-  # end
+    assert Database.get(:troy) == nil
+  end
 end
