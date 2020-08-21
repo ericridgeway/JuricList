@@ -5,6 +5,9 @@ defmodule DatabaseTest do
     # {:ok, _database} = Database.start()
     Database.start()
 
+    :sys.get_state(Database)
+    |> IO.inspect(label: "")
+
     :ok
   end
 
