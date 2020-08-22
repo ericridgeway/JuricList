@@ -1,7 +1,7 @@
-defmodule Database.Server do
+defmodule Database.Worker.Server do
   use GenServer
 
-  alias Database.{Impl}
+  alias Database.Worker.{Impl}
 
   @impl GenServer
   def init(_init_arg) do
@@ -22,10 +22,14 @@ defmodule Database.Server do
     |> reply(:ok)
   end
 
+
   @impl GenServer
   def handle_call({:get, key}, _from, state) do
-    state
-    |> reply(Impl.get(state, key))
+    with data <- Impl.get(state, key)
+    do
+      state
+      |> reply(data)
+    end
   end
 
 

@@ -1,5 +1,4 @@
 defmodule Database do
-
   @me __MODULE__
 
   def start() do
@@ -10,11 +9,11 @@ defmodule Database do
     GenServer.call(@me, {:store, key, data})
   end
 
-  def delete(key) do
-    GenServer.call(@me, {:delete, key})
-  end
-
   def get(key) do
     GenServer.call(@me, {:get, key})
+  end
+
+  def delete(key) do
+    GenServer.call(@me, {:delete, key})
   end
 end

@@ -1,42 +1,47 @@
 defmodule Database.Impl do
 
-  @db_folder "./persist"
+  @num_workers 3
 
-  # TODO @grp Wait, he's not using state. What's the point of GenServer'ing it then???
+  alias Database.{Worker}
+
   def new() do
-    File.mkdir_p!(@db_folder)
+    worker_range = 0..@num_workers-1
 
-    :ok
+    worker_pid_map =
+      Enum.reduce(worker_range, %{}, fn (id, map) ->
+        {:ok, worker_pid} = Worker.start()
+
+        Map.put(map, id, worker_pid)
+      end)
+
+    %{workers: worker_pid_map}
   end
 
-  def store(_state, key, data) do
-    # IO.puts "database write"; require InspectVars; InspectVars.inspect([key, data])
-    key
-    |> file_name()
-    |> File.write!(:erlang.term_to_binary(data))
+  # TODO maybe some of these lines like worker <- get moved up to Server lvl, decide after I do the impl -> state thing
+  def store(state, key, data) do
+    worker = choose_worker(state.workers, key)
 
-    :ok
+    :ok = Worker.store(worker, key, data)
+
+    state
   end
 
-  def get(_state, key) do
-    case File.read(file_name(key)) do
-      {:ok, contents} ->
-        :erlang.binary_to_term(contents)
+  def delete(state, key) do
+    worker = choose_worker(state.workers, key)
 
-      _ -> nil
-    end
+    :ok = Worker.delete(worker, key)
+
+    state
   end
 
-  def delete(_state, key) do
-    key
-    |> file_name()
-    |> File.rm()
+  def get(state, key) do
+    worker = choose_worker(state.workers, key)
 
-    :ok
+    Worker.get(worker, key)
   end
 
 
-  defp file_name(key) do
-    Path.join(@db_folder, to_string(key))
+  defp choose_worker(workers, key) do
+    Map.get(workers, :erlang.phash2(key, @num_workers))
   end
 end
