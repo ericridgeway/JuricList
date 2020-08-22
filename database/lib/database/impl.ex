@@ -3,9 +3,15 @@ defmodule Database.Impl do
   alias Database.{Worker}
 
   def new() do
-    {:ok, worker_pid} = Worker.start()
+    worker_pid_map =
+      Enum.reduce(0..2, %{}, fn (id, map) ->
+        {:ok, worker_pid} = Worker.start()
 
-    %{worker1: worker_pid}
+        Map.put(map, id, worker_pid)
+      end)
+
+    %{worker1: worker_pid_map[0], workers: worker_pid_map}
+    |> IO.inspect(label: "")
   end
 
   def store(state, key, data) do
