@@ -4,6 +4,8 @@ defmodule TodoServer.Server do
   alias TodoServer.{Impl}
 
   def init(name) do
+    Database.start()
+
     {:ok, Impl.new(name)}
   end
 
