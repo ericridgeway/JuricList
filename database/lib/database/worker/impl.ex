@@ -10,10 +10,11 @@ defmodule Database.Worker.Impl do
   end
 
   def store(_state, key, data) do
-    # IO.puts "database write"; require InspectVars; InspectVars.inspect([key, data])
     key
     |> file_name()
     |> File.write!(:erlang.term_to_binary(data))
+
+    # IO.inspect "#{inspect self()}: storing #{key}"
 
     :ok
   end

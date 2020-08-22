@@ -5,18 +5,15 @@ defmodule DatabaseTest do
     # {:ok, _database} = Database.start()
     Database.start()
 
-    :sys.get_state(Database)
-    |> IO.inspect(label: "")
-
     :ok
   end
 
   test "Basic store and retrieve, not testing thru server crash yet" do
     :ok = Database.store(:abed, "is batman")
-    :ok = Database.store("asd", "morning")
+    :ok = Database.store("asd123", "morning")
 
     assert Database.get(:abed) == "is batman"
-    assert Database.get("asd") == "morning"
+    assert Database.get("asd123") == "morning"
   end
 
   test "Delete key" do
@@ -25,6 +22,11 @@ defmodule DatabaseTest do
 
     assert Database.get(:troy) == nil
   end
+
+  # TODO @grp wiliam how tes this since it's... random'ish?
+  # test "Impl- choose_worker" do
+  #   Database.Impl.choose_worker
+  # end
 end
 
 # TODO next Finish the bk thing of using 3 worker pids instead of just 1. Should be easy
