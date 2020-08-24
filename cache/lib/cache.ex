@@ -3,7 +3,7 @@ defmodule Cache do
   Run multiple TodoServer's at once, each saved under a Name
   """
 
-  def start() do
+  def start_link() do
     GenServer.start(__MODULE__.Server, nil)
   end
 

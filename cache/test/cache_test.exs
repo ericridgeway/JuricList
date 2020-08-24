@@ -3,7 +3,7 @@ defmodule CacheTest do
   import ShorterMaps
 
   setup do
-    {:ok, cache} = Cache.start()
+    {:ok, cache} = Cache.start_link()
     # {:ok, cache} = start_supervised(Cache)
 
     ~M{cache}
