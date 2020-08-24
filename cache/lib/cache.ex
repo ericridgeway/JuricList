@@ -6,7 +6,7 @@ defmodule Cache do
   @me __MODULE__
 
   def start_link() do
-    GenServer.start(__MODULE__.Server, nil, name: @me)
+    GenServer.start_link(__MODULE__.Server, nil, name: @me)
   end
 
   @doc """
