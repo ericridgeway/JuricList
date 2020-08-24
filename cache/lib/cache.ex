@@ -3,8 +3,10 @@ defmodule Cache do
   Run multiple TodoServer's at once, each saved under a Name
   """
 
+  @me __MODULE__
+
   def start_link() do
-    GenServer.start(__MODULE__.Server, nil)
+    GenServer.start(__MODULE__.Server, nil, name: @me)
   end
 
   @doc """
@@ -13,7 +15,7 @@ defmodule Cache do
   Creates new server_process if one doesn't exist yet for that
   name
   """
-  def server_process(cache_pid, todo_list_name) do
-    GenServer.call(cache_pid, {:server_process, todo_list_name})
+  def server_process(todo_list_name) do
+    GenServer.call(@me, {:server_process, todo_list_name})
   end
 end
