@@ -4,6 +4,6 @@ defmodule Pre8RestartTest.TodoList do
   alias Pre8Restart.{TodoList}
 
   test "new, add_entry, and entries" do
-    todo_list = TodoList.new()
+    _todo_list = TodoList.new()
   end
 end
