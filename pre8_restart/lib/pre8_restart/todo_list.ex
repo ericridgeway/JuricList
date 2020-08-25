@@ -41,4 +41,13 @@ defmodule Pre8Restart.TodoList do
     |> Stream.map(fn {_id, entry} -> entry end)
     |> Enum.filter(& &1.date == target_date)
   end
+
+  @spec update_entry(t, id, fun) :: t
+  def update_entry(todo_list, id, updater_fun) do
+    entry = todo_list.entries[id]
+
+    entry = updater_fun.(entry)
+
+    put_in(todo_list.entries[id], entry)
+  end
 end

@@ -24,4 +24,15 @@ defmodule Pre8RestartTest.TodoList do
       TodoList.entries(todo_list, ~D[2018-01-01])
       |> hd()
   end
+
+  test "update_entry", ~M{todo_list} do
+    todo_list =
+      todo_list
+      |> TodoList.update_entry(1, &Map.put(&1, :date, ~D[1018-01-01]))
+
+    assert TodoList.titles(todo_list, ~D[2018-01-01]) == []
+    assert TodoList.titles(todo_list, ~D[1018-01-01]) == ["Dinner"]
+  end
+
+  # TODO errors for updater_fun validation
 end
