@@ -7,7 +7,6 @@ defmodule Pre8Restart.TodoList do
   @type id :: pos_integer
   @type entries :: %{id => entry}
   @type entry :: %{id: id, date: date, title: title}
-  # @type date :: Calendar.date
   @type date :: Date.t
   @type title :: String.t
 
@@ -35,5 +34,6 @@ defmodule Pre8Restart.TodoList do
     |> Enum.map(fn {_id, entry} -> entry end)
     |> Enum.filter(& &1.date == target_date)
     |> Enum.map(& &1.title)
+    # |> Enum.map(fn _ -> 1234 end)
   end
 end
