@@ -20,12 +20,20 @@ defmodule Pre8Restart.TodoList do
   end
 
   @spec add_entry(t, entry) :: t
-  def add_entry(todo_list, _entry) do
-    todo_list
+  def add_entry(todo_list, entry) do
+    entries = Map.put(todo_list.entries, todo_list.auto_id, entry)
+
+    %TodoList{todo_list |
+      auto_id: todo_list.auto_id + 1,
+      entries: entries,
+    }
   end
 
   @spec titles(t, date) :: [title]
-  def titles(_todo_list, _date) do
-    []
+  def titles(todo_list, target_date) do
+    todo_list.entries
+    |> Enum.map(fn {_id, entry} -> entry end)
+    |> Enum.filter(fn entry ->  entry.date == target_date end)
+    |> Enum.map(fn entry -> entry.title end)
   end
 end

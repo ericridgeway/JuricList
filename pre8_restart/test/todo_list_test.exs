@@ -12,6 +12,6 @@ defmodule Pre8RestartTest.TodoList do
       # |> TodoList.add_entry(%{date: :badDate, title: "Meeting"})
 
     assert TodoList.titles(todo_list, ~D[3000-01-01]) == []
-    # assert TodoList.titles(todo_list, ~D[2018-01-02]) == ["Dentist", "Meeting"]
+    assert TodoList.titles(todo_list, ~D[2018-01-02]) == ["Dentist", "Meeting"]
   end
 end
