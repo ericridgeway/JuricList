@@ -20,6 +20,7 @@ defmodule Pre8Restart.TodoList do
 
   @spec add_entry(t, entry) :: t
   def add_entry(todo_list, entry) do
+    entry = Map.put(entry, :id, todo_list.auto_id)
     entries = Map.put(todo_list.entries, todo_list.auto_id, entry)
 
     %TodoList{todo_list |
@@ -30,9 +31,14 @@ defmodule Pre8Restart.TodoList do
 
   @spec titles(t, date) :: [title]
   def titles(todo_list, target_date) do
+    entries(todo_list, target_date)
+    |> Enum.map(& &1.title)
+  end
+
+  @spec entries(t, date) :: [entry]
+  def entries(todo_list, target_date) do
     todo_list.entries
     |> Stream.map(fn {_id, entry} -> entry end)
-    |> Stream.filter(& &1.date == target_date)
-    |> Enum.map(& &1.title)
+    |> Enum.filter(& &1.date == target_date)
   end
 end
