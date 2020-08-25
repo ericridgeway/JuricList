@@ -31,9 +31,8 @@ defmodule Pre8Restart.TodoList do
   @spec titles(t, date) :: [title]
   def titles(todo_list, target_date) do
     todo_list.entries
-    |> Enum.map(fn {_id, entry} -> entry end)
-    |> Enum.filter(& &1.date == target_date)
+    |> Stream.map(fn {_id, entry} -> entry end)
+    |> Stream.filter(& &1.date == target_date)
     |> Enum.map(& &1.title)
-    # |> Enum.map(fn _ -> 1234 end)
   end
 end
