@@ -33,7 +33,7 @@ defmodule Pre8Restart.TodoList do
   def titles(todo_list, target_date) do
     todo_list.entries
     |> Enum.map(fn {_id, entry} -> entry end)
-    |> Enum.filter(fn entry ->  entry.date == target_date end)
-    |> Enum.map(fn entry -> entry.title end)
+    |> Enum.filter(& &1.date == target_date)
+    |> Enum.map(& &1.title)
   end
 end
