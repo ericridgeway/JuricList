@@ -1,14 +1,22 @@
 defmodule Pre8Restart.TodoList do
+  alias __MODULE__
 
-  @type t :: %{id => entry}
+  defstruct [:auto_id, :entries]
+
+  @type t :: %TodoList{auto_id: id, entries: entries}
   @type id :: pos_integer
+  @type entries :: %{id => entry}
   @type entry :: %{id: id, date: date, title: title}
-  @type date :: Calendar.date
+  # @type date :: Calendar.date
+  @type date :: Date.t
   @type title :: String.t
 
   @spec new() :: t
   def new() do
-    %{}
+    %TodoList{
+      auto_id: 1,
+      entries: %{},
+    }
   end
 
   @spec add_entry(t, entry) :: t
