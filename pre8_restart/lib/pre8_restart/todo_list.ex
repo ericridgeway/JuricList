@@ -1,84 +1,35 @@
 defmodule Pre8Restart.TodoList do
-  alias __MODULE__
-
-  defstruct [:auto_id, :entries]
-
-  @type t :: %TodoList{auto_id: id, entries: entries}
-  @type id :: pos_integer
-  @type entries :: %{id => entry}
-  @type entry :: %{id: id, date: date, title: title}
-  @type date :: Date.t
-  @type title :: String.t
-
-  @spec new() :: t
   def new() do
-    %TodoList{
-      auto_id: 1,
-      entries: %{},
-    }
+    {:ok, pid} = GenServer.start(__MODULE__.Server, nil)
+    pid
   end
 
-  @spec add_entry(t, entry) :: t
-  def add_entry(todo_list, entry) do
-    entry = Map.put(entry, :id, todo_list.auto_id)
-    entries = Map.put(todo_list.entries, todo_list.auto_id, entry)
-
-    %TodoList{todo_list |
-      auto_id: todo_list.auto_id + 1,
-      entries: entries,
-    }
+  def add_entry(pid, entry) do
+    :ok = GenServer.call(pid, {:add_entry, entry})
+    pid
   end
 
-  @spec titles(t, date) :: [title]
-  def titles(todo_list, target_date) do
-    entries(todo_list, target_date)
-    |> Enum.map(& &1.title)
+  def update_entry(pid, id, updater_fun) do
+    :ok = GenServer.call(pid, {:update_entry, id, updater_fun})
+    pid
   end
 
-  @spec entries(t, date) :: [entry]
-  def entries(todo_list, target_date) do
-    todo_list.entries
-    |> Stream.map(fn {_id, entry} -> entry end)
-    |> Enum.filter(& &1.date == target_date)
+  def update_entry(pid, updated_entry) do
+    :ok = GenServer.call(pid, {:update_entry, updated_entry})
+    pid
   end
 
-  @spec update_entry(t, id, fun) :: t
-  def update_entry(todo_list, id, updater_fun) do
-    case Map.fetch(todo_list.entries, id) do
-      {:ok, old_entry} ->
-        updated_entry = updater_fun.(old_entry)
-
-        validate_entry(old_entry, updated_entry)
-
-        put_in(todo_list.entries[id], updated_entry)
-
-      _ ->
-        todo_list
-    end
-  end
-
-  @spec update_entry(t, entry) :: t
-  def update_entry(todo_list, updated_entry) do
-    update_entry(todo_list, updated_entry.id, fn _ ->
-      updated_entry
-    end)
-  end
-
-  @spec delete_entry(t, id) :: t
-  def delete_entry(todo_list, id) do
-    update_in(todo_list.entries, fn entries ->
-      Map.delete(entries, id)
-    end)
+  def delete_entry(pid, id) do
+    :ok = GenServer.call(pid, {:delete_entry, id})
+    pid
   end
 
 
-  @spec validate_entry(entry, entry) :: :ok
-  defp validate_entry(old_entry, updated_entry) do
-    %{} = updated_entry
+  def titles(pid, target_date) do
+    GenServer.call(pid, {:titles, target_date})
+  end
 
-    original_id = old_entry.id
-    %{id: ^original_id} = updated_entry
-
-    :ok
+  def entries(pid, target_date) do
+    GenServer.call(pid, {:entries, target_date})
   end
 end
