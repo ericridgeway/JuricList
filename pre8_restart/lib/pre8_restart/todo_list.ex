@@ -64,6 +64,13 @@ defmodule Pre8Restart.TodoList do
     end)
   end
 
+  @spec delete_entry(t, id) :: t
+  def delete_entry(todo_list, id) do
+    update_in(todo_list.entries, fn entries ->
+      Map.delete(entries, id)
+    end)
+  end
+
 
   @spec validate_entry(entry, entry) :: :ok
   defp validate_entry(old_entry, updated_entry) do

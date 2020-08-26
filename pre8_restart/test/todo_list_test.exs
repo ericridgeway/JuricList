@@ -69,4 +69,12 @@ defmodule Pre8RestartTest.TodoList do
     assert TodoList.titles(todo_list, ~D[2018-01-01]) == []
     assert TodoList.titles(todo_list, ~D[1018-01-01]) == ["Dinner"]
   end
+
+  test "delete_entry", ~M{todo_list} do
+    todo_list =
+      todo_list
+      |> TodoList.delete_entry(2)
+
+    assert TodoList.titles(todo_list, ~D[2018-01-02]) == ["Meeting"]
+  end
 end
