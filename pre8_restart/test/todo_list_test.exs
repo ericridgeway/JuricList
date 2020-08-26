@@ -78,3 +78,5 @@ defmodule Pre8RestartTest.TodoList do
     assert TodoList.titles(todo_list, ~D[2018-01-02]) == ["Meeting"]
   end
 end
+
+# NOTE bk pg 122, iterative new(), and import file. Not gonna bother redo right now
