@@ -55,4 +55,18 @@ defmodule Pre8RestartTest.TodoList do
 
     assert todo_list == updated_todo_list
   end
+
+  test "update_entry/2, just give an entry that overwrites an existing one", ~M{todo_list} do
+    new_entry =
+      TodoList.entries(todo_list, ~D[2018-01-01])
+      |> hd()
+      |> Map.put(:date, ~D[1018-01-01])
+
+    todo_list =
+      todo_list
+      |> TodoList.update_entry(new_entry)
+
+    assert TodoList.titles(todo_list, ~D[2018-01-01]) == []
+    assert TodoList.titles(todo_list, ~D[1018-01-01]) == ["Dinner"]
+  end
 end
