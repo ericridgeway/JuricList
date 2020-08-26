@@ -1,5 +1,8 @@
 %{
+  "component": {:hex, :component, "0.2.5", "a7226ae5cfe721b704219d1d509ffa5578ec332595a4f3290360f3a3e22aae1d", [:mix], [{:poolboy, ">= 0.0.0", [hex: :poolboy, repo: "hexpm", optional: false]}, {:statix, ">= 1.0.0", [hex: :statix, repo: "hexpm", optional: false]}], "hexpm", "1d0496be4c612b5edce4f0c489675d1b04f128d776dae9aac7e7350f60ee8554"},
   "dialyxir": {:hex, :dialyxir, "1.0.0", "6a1fa629f7881a9f5aaf3a78f094b2a51a0357c843871b8bc98824e7342d00a5", [:mix], [{:erlex, ">= 0.2.6", [hex: :erlex, repo: "hexpm", optional: false]}], "hexpm", "aeb06588145fac14ca08d8061a142d52753dbc2cf7f0d00fc1013f53f8654654"},
   "erlex": {:hex, :erlex, "0.2.6", "c7987d15e899c7a2f34f5420d2a2ea0d659682c06ac607572df55a43753aa12e", [:mix], [], "hexpm", "2ed2e25711feb44d52b17d2780eabf998452f6efda104877a3881c2f8c0c0c75"},
+  "poolboy": {:hex, :poolboy, "1.5.2", "392b007a1693a64540cead79830443abf5762f5d30cf50bc95cb2c1aaafa006b", [:rebar3], [], "hexpm", "dad79704ce5440f3d5a3681c8590b9dc25d1a561e8f5a9c995281012860901e3"},
   "shorter_maps": {:hex, :shorter_maps, "2.2.5", "77b2e3632a49c72ca8aea2a47687767b3ad2623b9ade529ffe31f41865a32886", [:mix], [], "hexpm", "fbef59a9f13369f819111f500f0253678526ea8c717d794a224df41223bc88ab"},
+  "statix": {:hex, :statix, "1.4.0", "c822abd1e60e62828e8460e932515d0717aa3c089b44cc3f795d43b94570b3a8", [:mix], [], "hexpm", "507373cc80925a9b6856cb14ba17f6125552434314f6613c907d295a09d1a375"},
 }
