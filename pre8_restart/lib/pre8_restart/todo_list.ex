@@ -1,6 +1,10 @@
 defmodule Pre8Restart.TodoList do
   alias __MODULE__
 
+  use Component.Strategy.Dynamic,
+    state_name: :todo_list,
+    initial_state: new()
+
   defstruct [:auto_id, :entries]
 
   @type t :: %TodoList{auto_id: id, entries: entries}
@@ -19,7 +23,7 @@ defmodule Pre8Restart.TodoList do
   end
 
   @spec add_entry(t, entry) :: t
-  def add_entry(todo_list, entry) do
+  two_way add_entry(todo_list, entry) do
     entry = Map.put(entry, :id, todo_list.auto_id)
     entries = Map.put(todo_list.entries, todo_list.auto_id, entry)
 
@@ -30,20 +34,20 @@ defmodule Pre8Restart.TodoList do
   end
 
   @spec titles(t, date) :: [title]
-  def titles(todo_list, target_date) do
+  two_way titles(todo_list, target_date) do
     entries(todo_list, target_date)
     |> Enum.map(& &1.title)
   end
 
   @spec entries(t, date) :: [entry]
-  def entries(todo_list, target_date) do
+  two_way entries(todo_list, target_date) do
     todo_list.entries
     |> Stream.map(fn {_id, entry} -> entry end)
     |> Enum.filter(& &1.date == target_date)
   end
 
   @spec update_entry(t, id, fun) :: t
-  def update_entry(todo_list, id, updater_fun) do
+  two_way update_entry(todo_list, id, updater_fun) do
     case Map.fetch(todo_list.entries, id) do
       {:ok, old_entry} ->
         updated_entry = updater_fun.(old_entry)
@@ -58,14 +62,14 @@ defmodule Pre8Restart.TodoList do
   end
 
   @spec update_entry(t, entry) :: t
-  def update_entry(todo_list, updated_entry) do
+  two_way update_entry(todo_list, updated_entry) do
     update_entry(todo_list, updated_entry.id, fn _ ->
       updated_entry
     end)
   end
 
   @spec delete_entry(t, id) :: t
-  def delete_entry(todo_list, id) do
+  two_way delete_entry(todo_list, id) do
     update_in(todo_list.entries, fn entries ->
       Map.delete(entries, id)
     end)
