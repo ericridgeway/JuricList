@@ -9,23 +9,23 @@ defmodule Pre8Restart.TodoList.Server do
   end
 
   @impl GenServer
-  def handle_cast({:add_entry, entry}, state) do
-    {:noreply, State.add_entry(state, entry)}
+  def handle_call({:add_entry, entry}, _from, state) do
+    {:reply, :ok, State.add_entry(state, entry)}
   end
 
   @impl GenServer
-  def handle_cast({:update_entry, id, updater_fun}, state) do
-    {:noreply, State.update_entry(state, id, updater_fun)}
+  def handle_call({:update_entry, id, updater_fun}, _from, state) do
+    {:reply, :ok, State.update_entry(state, id, updater_fun)}
   end
 
   @impl GenServer
-  def handle_cast({:update_entry, updated_entry}, state) do
-    {:noreply, State.update_entry(state, updated_entry)}
+  def handle_call({:update_entry, updated_entry}, _from, state) do
+    {:reply, :ok, State.update_entry(state, updated_entry)}
   end
 
   @impl GenServer
-  def handle_cast({:delete_entry, id}, state) do
-    {:noreply, State.delete_entry(state, id)}
+  def handle_call({:delete_entry, id}, _from, state) do
+    {:reply, :ok, State.delete_entry(state, id)}
   end
 
 
