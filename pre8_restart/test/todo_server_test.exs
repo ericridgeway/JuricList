@@ -6,7 +6,7 @@ defmodule Pre8RestartTest.TodoServer do
   @date1 ~D[2018-01-01]
 
   test "Wrap todolist in genserver" do
-    {:ok, pid} = TodoServer.start_link()
+    {:ok, pid} = TodoServer.start()
 
     :ok = TodoServer.add_entry(pid, %{date: @date1, title: "Sing"})
 
