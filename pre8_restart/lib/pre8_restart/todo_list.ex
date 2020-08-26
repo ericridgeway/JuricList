@@ -44,10 +44,23 @@ defmodule Pre8Restart.TodoList do
 
   @spec update_entry(t, id, fun) :: t
   def update_entry(todo_list, id, updater_fun) do
-    entry = todo_list.entries[id]
+    old_entry = todo_list.entries[id]
 
-    entry = updater_fun.(entry)
+    updated_entry = updater_fun.(old_entry)
 
-    put_in(todo_list.entries[id], entry)
+    validate_entry(old_entry, updated_entry)
+
+    put_in(todo_list.entries[id], updated_entry)
+  end
+
+
+  @spec validate_entry(entry, entry) :: :ok
+  defp validate_entry(old_entry, updated_entry) do
+    %{} = updated_entry
+
+    original_id = old_entry.id
+    %{id: ^original_id} = updated_entry
+
+    :ok
   end
 end

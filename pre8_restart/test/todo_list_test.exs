@@ -34,5 +34,19 @@ defmodule Pre8RestartTest.TodoList do
     assert TodoList.titles(todo_list, ~D[1018-01-01]) == ["Dinner"]
   end
 
+  test "update_entry validation, new entry should atleast be a map", ~M{todo_list} do
+    assert_raise MatchError, fn ->
+      todo_list
+      |> TodoList.update_entry(1, fn _entry -> :notAnEntryMap end)
+    end
+  end
+
+  test "update_entry validation, no changing inner id to mismatch", ~M{todo_list} do
+    assert_raise MatchError, fn ->
+      todo_list
+      |> TodoList.update_entry(1, &Map.put(&1, :id, :badId))
+    end
+  end
+
   # TODO errors for updater_fun validation
 end
