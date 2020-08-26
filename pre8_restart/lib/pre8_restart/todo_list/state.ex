@@ -1,9 +1,5 @@
 defmodule Pre8Restart.TodoList.State do
-  alias __MODULE__
-
-  defstruct [:auto_id, :entries]
-
-  @type t :: %__MODULE__{auto_id: id, entries: entries}
+  @type t :: %{auto_id: id, entries: entries}
   @type id :: pos_integer
   @type entries :: %{id => entry}
   @type entry :: %{id: id, date: date, title: title}
@@ -12,7 +8,7 @@ defmodule Pre8Restart.TodoList.State do
 
   @spec new() :: t
   def new() do
-    %__MODULE__{
+    %{
       auto_id: 1,
       entries: %{},
     }
@@ -23,7 +19,7 @@ defmodule Pre8Restart.TodoList.State do
     entry = Map.put(entry, :id, todo_list.auto_id)
     entries = Map.put(todo_list.entries, todo_list.auto_id, entry)
 
-    %__MODULE__{todo_list |
+    %{todo_list |
       auto_id: todo_list.auto_id + 1,
       entries: entries,
     }
