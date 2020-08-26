@@ -48,5 +48,11 @@ defmodule Pre8RestartTest.TodoList do
     end
   end
 
-  # TODO errors for updater_fun validation
+  test "update_entry returns unchanged todo_list if target id doesn't exist", ~M{todo_list} do
+    updated_todo_list =
+      todo_list
+      |> TodoList.update_entry(12345, &Map.put(&1, :date, ~D[1018-01-01]))
+
+    assert todo_list == updated_todo_list
+  end
 end

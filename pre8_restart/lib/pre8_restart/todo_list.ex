@@ -44,13 +44,17 @@ defmodule Pre8Restart.TodoList do
 
   @spec update_entry(t, id, fun) :: t
   def update_entry(todo_list, id, updater_fun) do
-    old_entry = todo_list.entries[id]
+    case Map.fetch(todo_list.entries, id) do
+      {:ok, old_entry} ->
+        updated_entry = updater_fun.(old_entry)
 
-    updated_entry = updater_fun.(old_entry)
+        validate_entry(old_entry, updated_entry)
 
-    validate_entry(old_entry, updated_entry)
+        put_in(todo_list.entries[id], updated_entry)
 
-    put_in(todo_list.entries[id], updated_entry)
+      _ ->
+        todo_list
+    end
   end
 
 
