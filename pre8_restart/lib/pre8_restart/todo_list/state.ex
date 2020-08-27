@@ -1,14 +1,16 @@
 defmodule Pre8Restart.TodoList.State do
-  @type t :: %{auto_id: id, entries: entries}
+  @type t :: %{name: name, auto_id: id, entries: entries}
   @type id :: pos_integer
   @type entries :: %{id => entry}
   @type entry :: %{id: id, date: date, title: title}
   @type date :: Date.t
   @type title :: String.t
+  @type name :: String.t
 
-  @spec new() :: t
-  def new() do
+  @spec new(name) :: t
+  def new(name) do
     %{
+      name: name,
       auto_id: 1,
       entries: %{},
     }
@@ -65,6 +67,11 @@ defmodule Pre8Restart.TodoList.State do
     update_in(todo_list.entries, fn entries ->
       Map.delete(entries, id)
     end)
+  end
+
+  @spec name(t) :: name
+  def name(todo_list) do
+    todo_list.name
   end
 
 

@@ -17,7 +17,7 @@ defmodule Pre8Restart.Cache do
   @spec put_if_doesnt_exist(t, name) :: t
   def put_if_doesnt_exist(state, name) do
     Map.put_new_lazy(state, name, fn ->
-      TodoList.new()
+      TodoList.new(name)
     end)
   end
 

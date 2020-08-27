@@ -4,8 +4,8 @@ defmodule Pre8Restart.TodoList.Server do
   alias Pre8Restart.TodoList.{State}
 
   @impl GenServer
-  def init(_init_arg) do
-    {:ok, State.new()}
+  def init(name) do
+    {:ok, State.new(name)}
   end
 
   @impl GenServer
@@ -37,5 +37,10 @@ defmodule Pre8Restart.TodoList.Server do
   @impl GenServer
   def handle_call({:entries, target_date}, _from, state) do
     {:reply, State.entries(state, target_date), state}
+  end
+
+  @impl GenServer
+  def handle_call({:name}, _from, state) do
+    {:reply, State.name(state), state}
   end
 end

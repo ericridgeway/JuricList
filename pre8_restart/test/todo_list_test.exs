@@ -6,7 +6,7 @@ defmodule Pre8RestartTest.TodoList do
 
   setup do
     todo_list =
-      TodoList.new()
+      TodoList.new("Batman")
       |> TodoList.add_entry(%{date: ~D[2018-01-01], title: "Dinner"})
       |> TodoList.add_entry(%{date: ~D[2018-01-02], title: "Dentist"})
       |> TodoList.add_entry(%{date: ~D[2018-01-02], title: "Meeting"})
@@ -77,6 +77,10 @@ defmodule Pre8RestartTest.TodoList do
       |> TodoList.delete_entry(2)
 
     assert TodoList.titles(todo_list, ~D[2018-01-02]) == ["Meeting"]
+  end
+
+  test "name", ~M{todo_list} do
+    assert TodoList.name(todo_list) == "Batman"
   end
 end
 
