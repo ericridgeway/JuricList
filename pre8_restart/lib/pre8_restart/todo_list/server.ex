@@ -5,8 +5,15 @@ defmodule Pre8Restart.TodoList.Server do
   alias Pre8Restart.{Database}
 
   @impl GenServer
-  def init(name) do
-    state = Database.get(name) || State.new(name)
+  def init({name, database}) do
+    state =
+      case database do
+        true ->
+          Database.get(name) || State.new(name, database)
+
+        _ ->
+          State.new(name, database)
+      end
 
     {:ok, state}
   end
@@ -60,10 +67,15 @@ defmodule Pre8Restart.TodoList.Server do
 
 
   defp reply(state, msg) do
-    :ok =
-      state
-      |> State.name()
-      |> Database.store(state)
+    case State.database(state) do
+      true ->
+        :ok =
+          state
+          |> State.name()
+          |> Database.store(state)
+
+      _ -> :ok
+    end
 
     {:reply, msg, state}
   end
