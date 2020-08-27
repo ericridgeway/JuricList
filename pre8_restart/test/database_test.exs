@@ -21,12 +21,6 @@ defmodule Pre8RestartTest.Database do
   end
 
   test "Database is clean between tests" do
-    # database =
-      Database.new()
-      Database.new()
-      Database.new()
-    #   |> Database.store(:cat, "doggy")
-
     database =
       Database.new()
 
