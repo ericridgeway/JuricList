@@ -1,21 +1,18 @@
 defmodule Pre8Restart.Database do
-  @type t :: :ok
   @type key :: any
   @type value :: any
 
   @db_folder "./persist"
 
-  @spec new() :: t
-  # defdelegate new(), to: Map
-  def new() do
+  @spec start() :: :ok
+  def start() do
     File.mkdir_p!(@db_folder)
 
     :ok
   end
 
-  @spec store(t, key, value) :: t
-  # defdelegate store(state, key, value), to: Map, as: :put
-  def store(_state, key, value) do
+  @spec store(key, value) :: :ok
+  def store(key, value) do
     key
     |> file_name()
     |> File.write!(:erlang.term_to_binary(value))
@@ -23,17 +20,16 @@ defmodule Pre8Restart.Database do
     :ok
   end
 
-  @spec get(t, key) :: value
-  # defdelegate get(state, key), to: Map
-  def get(_state, key) do
+  @spec get(key) :: value
+  def get(key) do
     case File.read(file_name(key)) do
       {:ok, contents} -> :erlang.binary_to_term(contents)
       _ -> nil
     end
   end
 
-  @spec clear(t) :: :ok
-  def clear(_state) do
+  @spec clear() :: :ok
+  def clear() do
     File.rm_rf!(@db_folder)
 
     :ok

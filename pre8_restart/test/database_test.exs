@@ -4,26 +4,23 @@ defmodule Pre8RestartTest.Database do
   alias Pre8Restart.{Database}
 
   setup do
+    Database.start()
+
     on_exit fn ->
-      Database.clear(Database.new())
+      Database.clear()
     end
   end
 
   test "Database store and get" do
-    database =
-      Database.new()
-      |> Database.store(:cat, :meow)
-      |> Database.store(:cat, "doggy")
-      |> Database.store("asd123", "abed is batman")
+    :ok = Database.store(:cat, :meow)
+    :ok = Database.store(:cat, "doggy")
+    :ok = Database.store("asd123", "abed is batman")
 
-    assert Database.get(database, :cat) == "doggy"
-    assert Database.get(database, "asd123") == "abed is batman"
+    assert Database.get(:cat) == "doggy"
+    assert Database.get("asd123") == "abed is batman"
   end
 
   test "Database is clean between tests" do
-    database =
-      Database.new()
-
-    assert Database.get(database, :cat) == nil
+    assert Database.get(:cat) == nil
   end
 end
