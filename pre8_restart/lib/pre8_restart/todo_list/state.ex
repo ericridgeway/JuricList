@@ -1,18 +1,20 @@
 defmodule Pre8Restart.TodoList.State do
-  @type t :: %{name: name, auto_id: id, entries: entries}
+  @type t :: %{name: name, auto_id: id, entries: entries, database: database}
   @type id :: pos_integer
   @type entries :: %{id => entry}
   @type entry :: %{id: id, date: date, title: title}
   @type date :: Date.t
   @type title :: String.t
   @type name :: String.t
+  @type database :: true | nil
 
-  @spec new(name) :: t
-  def new(name) do
+  @spec new(name, database) :: t
+  def new(name, database) do
     %{
       name: name,
       auto_id: 1,
       entries: %{},
+      database: database,
     }
   end
 
@@ -73,6 +75,9 @@ defmodule Pre8Restart.TodoList.State do
   def name(todo_list) do
     todo_list.name
   end
+
+  @spec database(t) :: database
+  def database(todo_list), do: todo_list.database
 
 
   @spec validate_entry(entry, entry) :: :ok

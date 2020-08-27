@@ -8,16 +8,13 @@ defmodule Pre8Restart.Cache do
   @spec new() :: t
   # defdelegate new(), to: Map
   def new() do
-    # NOTE tmp hack book asks for, pg 191
-    Database.start()
-
     %{}
   end
 
   @spec put_if_doesnt_exist(t, name) :: t
-  def put_if_doesnt_exist(state, name) do
+  def put_if_doesnt_exist(state, name, database \\ nil) do
     Map.put_new_lazy(state, name, fn ->
-      TodoList.new(name)
+      TodoList.new(name, database)
     end)
   end
 

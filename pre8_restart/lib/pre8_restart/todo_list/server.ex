@@ -2,10 +2,23 @@ defmodule Pre8Restart.TodoList.Server do
   use GenServer
 
   alias Pre8Restart.TodoList.{State}
+  alias Pre8Restart.{Database}
 
   @impl GenServer
-  def init(name) do
-    {:ok, State.new(name)}
+  def init({name, database}) do
+    state =
+      case database do
+        true ->
+          # NOTE tmp hack book asks for, pg 191
+          Database.start()
+
+          Database.get(name) || State.new(name, database)
+
+        _ ->
+          State.new(name, database)
+      end
+
+    {:ok, state}
   end
 
   @impl GenServer
@@ -57,6 +70,16 @@ defmodule Pre8Restart.TodoList.Server do
 
 
   defp reply(state, msg) do
+    case State.database(state) do
+      true ->
+        :ok =
+          state
+          |> State.name()
+          |> Database.store(state)
+
+      _ -> :ok
+    end
+
     {:reply, msg, state}
   end
 end
