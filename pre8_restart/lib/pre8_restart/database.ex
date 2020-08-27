@@ -32,6 +32,13 @@ defmodule Pre8Restart.Database do
     end
   end
 
+  @spec clear(t) :: :ok
+  def clear(_state) do
+    File.rm_rf!(@db_folder)
+
+    :ok
+  end
+
 
   defp file_name(key) do
     Path.join(@db_folder, to_string(key))
