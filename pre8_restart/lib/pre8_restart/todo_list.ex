@@ -1,4 +1,6 @@
 defmodule Pre8Restart.TodoList do
+  @type t :: pid
+
   def new() do
     {:ok, pid} = GenServer.start(__MODULE__.Server, nil)
     pid
