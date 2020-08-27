@@ -2,10 +2,13 @@ defmodule Pre8Restart.TodoList.Server do
   use GenServer
 
   alias Pre8Restart.TodoList.{State}
+  alias Pre8Restart.{Database}
 
   @impl GenServer
   def init(name) do
-    {:ok, State.new(name)}
+    state = Database.get(name) || State.new(name)
+
+    {:ok, state}
   end
 
   @impl GenServer
@@ -57,6 +60,11 @@ defmodule Pre8Restart.TodoList.Server do
 
 
   defp reply(state, msg) do
+    :ok =
+      state
+      |> State.name()
+      |> Database.store(state)
+
     {:reply, msg, state}
   end
 end

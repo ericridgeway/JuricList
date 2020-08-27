@@ -15,6 +15,10 @@ defmodule Pre8RestartTest.TodoListPersist do
       |> TodoList.add_entry(%{date: ~D[2018-01-02], title: "Dentist"})
       |> TodoList.add_entry(%{date: ~D[2018-01-02], title: "Meeting"})
 
+    on_exit fn ->
+      Database.clear()
+    end
+
     ~M{todo_list}
   end
 
