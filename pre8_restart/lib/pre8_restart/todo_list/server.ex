@@ -9,6 +9,9 @@ defmodule Pre8Restart.TodoList.Server do
     state =
       case database do
         true ->
+          # NOTE tmp hack book asks for, pg 191
+          Database.start()
+
           Database.get(name) || State.new(name, database)
 
         _ ->
