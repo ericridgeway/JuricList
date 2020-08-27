@@ -7,11 +7,11 @@ defmodule Pre8RestartTest.Cache do
     cache =
       Cache.new()
 
-    bob = Cache.fetch_list(cache, "Bob's list")
-    bob_again = Cache.fetch_list(cache, "Bob's list")
-    alice = Cache.fetch_list(cache, "Alice's list")
+    {cache, bob} = Cache.fetch_list(cache, "Bob's list")
+    {cache, bob_again} = Cache.fetch_list(cache, "Bob's list")
+    {cache, alice} = Cache.fetch_list(cache, "Alice's list")
 
     assert bob != alice
-    # assert bob == bob_again
+    assert bob == bob_again
   end
 end
