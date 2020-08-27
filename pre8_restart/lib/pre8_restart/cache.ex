@@ -8,13 +8,6 @@ defmodule Pre8Restart.Cache do
   @spec new() :: t
   defdelegate new(), to: Map
 
-  @spec fetch_list(t, name) :: {t, todo_list}
-  def fetch_list(state, name) do
-    state = put_if_doesnt_exist(state, name)
-
-    {state, get(state, name)}
-  end
-
   @spec put_if_doesnt_exist(t, name) :: t
   def put_if_doesnt_exist(state, name) do
     Map.put_new_lazy(state, name, fn ->
