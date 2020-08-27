@@ -7,15 +7,11 @@ defmodule Pre8Restart.Cache do
 
   @spec new() :: t
   defdelegate new(), to: Map
-  # def new() do
-  #   %{}
-  # end
 
   @spec fetch_list(t, name) :: {t, todo_list}
   def fetch_list(state, name) do
     state = put_if_doesnt_exist(state, name)
 
-    # {state, TodoList.new()}
     {state, get(state, name)}
   end
 
@@ -28,7 +24,4 @@ defmodule Pre8Restart.Cache do
 
   @spec get(t, name) :: todo_list
   defdelegate get(state, name), to: Map
-  # def get(state, name) do
-  #   TodoList.new()
-  # end
 end
