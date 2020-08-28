@@ -7,8 +7,10 @@ defmodule Pre8Restart.TodoList do
   import Pre8Restart.TodoList.Types
   get_shared()
 
-  # TODO doc the database type?
 
+  @doc """
+  database should be a module implementing the Pre8Restart.Database behaviour
+  """
   @spec new(name, database) :: t
   def new(name, database \\ NothingDb) do
     {:ok, pid} = GenServer.start(__MODULE__.Server, {name, database})
