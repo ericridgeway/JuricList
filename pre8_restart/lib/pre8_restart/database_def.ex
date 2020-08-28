@@ -3,8 +3,8 @@ defmodule Pre8Restart.DatabaseDef do
   @type value :: any
 
   @callback start() :: :ok
-  @callback get(key) :: value
   @callback store(key, value) :: :ok
+  @callback get(key) :: value
 end
 
 # TODO rename this to Database, and cur Database -> FilesystemDb

@@ -7,7 +7,7 @@ defmodule Pre8RestartTest.TodoListPersist do
   setup do
     todo_list =
       Cache.new()
-      |> Cache.put_if_doesnt_exist("Doggie", true)
+      |> Cache.put_if_doesnt_exist("Doggie", Database)
       |> Cache.get("Doggie")
       |> TodoList.add_entry(%{date: ~D[2018-01-01], title: "Dinner"})
       |> TodoList.add_entry(%{date: ~D[2018-01-02], title: "Dentist"})
@@ -28,7 +28,7 @@ defmodule Pre8RestartTest.TodoListPersist do
 
     todo_list =
       Cache.new()
-      |> Cache.put_if_doesnt_exist("Doggie", true)
+      |> Cache.put_if_doesnt_exist("Doggie", Database)
       |> Cache.get("Doggie")
 
     assert TodoList.titles(todo_list, ~D[2018-01-02]) == ["Dentist", "Meeting"]

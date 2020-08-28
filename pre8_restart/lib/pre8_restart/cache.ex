@@ -1,5 +1,5 @@
 defmodule Pre8Restart.Cache do
-  alias Pre8Restart.{TodoList}
+  alias Pre8Restart.{TodoList, NothingDb}
 
   @type t :: %{name => todo_list}
   @type name :: String.t
@@ -13,7 +13,7 @@ defmodule Pre8Restart.Cache do
 
   # TODO not sure why this doesn't error. Anyways, pass in the new DbBehaviour module or something. Get to this later. Double check why this is in multiple places, cache and server... Maybe just getting passed down the line. Still prob need to alias in some @type or something, or doc what this should be
   @spec put_if_doesnt_exist(t, name) :: t
-  def put_if_doesnt_exist(state, name, database \\ nil) do
+  def put_if_doesnt_exist(state, name, database \\ NothingDb) do
     Map.put_new_lazy(state, name, fn ->
       TodoList.new(name, database)
     end)
