@@ -1,38 +1,19 @@
 defmodule Pre8Restart.Database.FileSystemDb.State do
-  # NOTE decide on type/spec's, duplicate/conflict with above again, oh well for now
-  # Maybe try the no-duplicate version here, since I tried the yes duplicate with todoList/server :)
-
-  @db_folder "./persist"
+  alias Pre8Restart.Database.FileSystemDb.{Worker}
 
   def new() do
-    File.mkdir_p!(@db_folder)
-
-    :ok
+    Worker.new()
   end
 
   def store(_state, key, value) do
-    key
-    |> file_name()
-    |> File.write!(:erlang.term_to_binary(value))
-
-    :ok
+    Worker.store(nil, key, value)
   end
 
   def get(_state, key) do
-    case File.read(file_name(key)) do
-      {:ok, contents} -> :erlang.binary_to_term(contents)
-      _ -> nil
-    end
+    Worker.get(nil, key)
   end
 
   def clear(_state) do
-    File.rm_rf!(@db_folder)
-
-    :ok
-  end
-
-
-  defp file_name(key) do
-    Path.join(@db_folder, to_string(key))
+    Worker.clear(nil)
   end
 end
