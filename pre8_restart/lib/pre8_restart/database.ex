@@ -1,17 +1,18 @@
 defmodule Pre8Restart.Database do
-  @type key :: any
-  @type value :: any
+  alias Pre8Restart.{DatabaseDef}
+
+  @behaviour DatabaseDef
 
   @db_folder "./persist"
 
-  @spec start() :: :ok
+  @impl DatabaseDef
   def start() do
     File.mkdir_p!(@db_folder)
 
     :ok
   end
 
-  @spec store(key, value) :: :ok
+  @impl DatabaseDef
   def store(key, value) do
     key
     |> file_name()
@@ -20,7 +21,7 @@ defmodule Pre8Restart.Database do
     :ok
   end
 
-  @spec get(key) :: value
+  @impl DatabaseDef
   def get(key) do
     case File.read(file_name(key)) do
       {:ok, contents} -> :erlang.binary_to_term(contents)
