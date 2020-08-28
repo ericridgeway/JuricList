@@ -35,5 +35,3 @@ defmodule Pre8RestartTest.TodoListPersist do
     assert TodoList.titles(todo_list, ~D[2018-01-02]) == ["Dentist", "Meeting"]
   end
 end
-
-# TODO switch to Module instead of true for callback practice
