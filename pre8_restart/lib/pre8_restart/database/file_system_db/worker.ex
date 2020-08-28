@@ -1,35 +1,20 @@
 defmodule Pre8Restart.Database.FileSystemDb.Worker do
-  @db_folder "./persist"
-
   def new() do
-    File.mkdir_p!(@db_folder)
-
-    :ok
+    {:ok, pid} = GenServer.start(__MODULE__.Server, nil)
+    pid
   end
 
-  def store(_state, key, value) do
-    key
-    |> file_name()
-    |> File.write!(:erlang.term_to_binary(value))
-
-    :ok
+  def store(pid, key, value) do
+    GenServer.call(pid, {:store, key, value})
+    pid
   end
 
-  def get(_state, key) do
-    case File.read(file_name(key)) do
-      {:ok, contents} -> :erlang.binary_to_term(contents)
-      _ -> nil
-    end
-  end
-
-  def clear(_state) do
-    File.rm_rf!(@db_folder)
-
-    :ok
+  def clear(pid) do
+    GenServer.call(pid, :clear)
   end
 
 
-  defp file_name(key) do
-    Path.join(@db_folder, to_string(key))
+  def get(pid, key) do
+    GenServer.call(pid, {:get, key})
   end
 end

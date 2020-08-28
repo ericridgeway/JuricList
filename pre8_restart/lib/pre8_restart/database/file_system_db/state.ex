@@ -2,18 +2,21 @@ defmodule Pre8Restart.Database.FileSystemDb.State do
   alias Pre8Restart.Database.FileSystemDb.{Worker}
 
   def new() do
-    Worker.new()
+    %{worker1: Worker.new()}
   end
 
-  def store(_state, key, value) do
-    Worker.store(nil, key, value)
+  def store(state, key, value) do
+    Worker.store(state.worker1, key, value)
+    state
   end
 
-  def get(_state, key) do
-    Worker.get(nil, key)
+  def get(state, key) do
+    Worker.get(state.worker1, key)
   end
 
-  def clear(_state) do
-    Worker.clear(nil)
+  def clear(state) do
+    Worker.clear(state.worker1)
   end
 end
+
+# TODO next Easy now just make 3 workers, and use book trick to "random" pick one
