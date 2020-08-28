@@ -1,5 +1,5 @@
 defmodule Pre8Restart.TodoList do
-  alias Pre8Restart.{NothingDb}
+  alias Pre8Restart.Database.{NothingDb}
 
   @type t :: pid
 

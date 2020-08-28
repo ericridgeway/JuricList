@@ -1,5 +1,6 @@
 defmodule Pre8Restart.Cache do
-  alias Pre8Restart.{TodoList, NothingDb}
+  alias Pre8Restart.{TodoList}
+  alias Pre8Restart.Database.{NothingDb}
 
   @type t :: %{name => todo_list}
   @type name :: String.t

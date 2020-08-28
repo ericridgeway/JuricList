@@ -2,19 +2,20 @@ defmodule Pre8RestartTest.TodoListPersist do
   use ExUnit.Case
   import ShorterMaps
 
-  alias Pre8Restart.{Cache, TodoList, Database}
+  alias Pre8Restart.{Cache, TodoList}
+  alias Pre8Restart.Database.{FileSystemDb}
 
   setup do
     todo_list =
       Cache.new()
-      |> Cache.put_if_doesnt_exist("Doggie", Database)
+      |> Cache.put_if_doesnt_exist("Doggie", FileSystemDb)
       |> Cache.get("Doggie")
       |> TodoList.add_entry(%{date: ~D[2018-01-01], title: "Dinner"})
       |> TodoList.add_entry(%{date: ~D[2018-01-02], title: "Dentist"})
       |> TodoList.add_entry(%{date: ~D[2018-01-02], title: "Meeting"})
 
     on_exit fn ->
-      Database.clear()
+      FileSystemDb.clear()
     end
 
     ~M{todo_list}
@@ -28,7 +29,7 @@ defmodule Pre8RestartTest.TodoListPersist do
 
     todo_list =
       Cache.new()
-      |> Cache.put_if_doesnt_exist("Doggie", Database)
+      |> Cache.put_if_doesnt_exist("Doggie", FileSystemDb)
       |> Cache.get("Doggie")
 
     assert TodoList.titles(todo_list, ~D[2018-01-02]) == ["Dentist", "Meeting"]
