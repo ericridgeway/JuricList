@@ -1,12 +1,11 @@
 defmodule Pre8Restart.TodoList.State do
+
   @type t :: %{name: name, auto_id: id, entries: entries, database: database}
-  @type id :: pos_integer
   @type entries :: %{id => entry}
-  @type entry :: %{id: id, date: date, title: title}
-  @type date :: Date.t
-  @type title :: String.t
-  @type name :: String.t
-  @type database :: true | nil
+
+  import Pre8Restart.TodoList.Types
+  get_shared()
+
 
   @spec new(name, database) :: t
   def new(name, database) do
