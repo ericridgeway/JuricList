@@ -1,7 +1,11 @@
 defmodule Pre8Restart.TodoList do
+  alias Pre8Restart.Database.{NothingDb}
+
   @type t :: pid
 
-  def new(name, database \\ nil) do
+  # TODO move some of the type/specs up to here from State, and alias to them here down there
+
+  def new(name, database \\ NothingDb) do
     {:ok, pid} = GenServer.start(__MODULE__.Server, {name, database})
     pid
   end
