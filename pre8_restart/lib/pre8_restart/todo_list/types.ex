@@ -14,5 +14,5 @@ defmodule Pre8Restart.TodoList.Types do
   end
 end
 
-# TODO a- The import/get_shared looks funny. Maybe I can live with it. Would be nice if we could just import types
+# ASK a- The import/get_shared looks funny. Maybe I can live with it. Would be nice if we could just import types
 # b- I'm still duplicating the types and methods themselves in state and top lvl

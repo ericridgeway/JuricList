@@ -3,41 +3,27 @@ defmodule Pre8Restart.Database.FileSystemDb do
 
   @behaviour Database
 
-  @db_folder "./persist"
+  @me __MODULE__
 
   @impl Database
   def start() do
-    File.mkdir_p!(@db_folder)
-
+    GenServer.start(__MODULE__.Server, nil, name: @me)
     :ok
   end
 
   @impl Database
   def store(key, value) do
-    key
-    |> file_name()
-    |> File.write!(:erlang.term_to_binary(value))
-
-    :ok
-  end
-
-  @impl Database
-  def get(key) do
-    case File.read(file_name(key)) do
-      {:ok, contents} -> :erlang.binary_to_term(contents)
-      _ -> nil
-    end
+    GenServer.call(@me, {:store, key, value})
   end
 
   @spec clear() :: :ok
   def clear() do
-    File.rm_rf!(@db_folder)
-
-    :ok
+    GenServer.call(@me, :clear)
   end
 
 
-  defp file_name(key) do
-    Path.join(@db_folder, to_string(key))
+  @impl Database
+  def get(key) do
+    GenServer.call(@me, {:get, key})
   end
 end

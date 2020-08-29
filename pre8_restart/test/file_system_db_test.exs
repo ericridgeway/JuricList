@@ -9,6 +9,8 @@ defmodule Pre8RestartTest.FileSystemDb do
     on_exit fn ->
       FileSystemDb.clear()
     end
+
+    :ok
   end
 
   test "FileSystemDb store and get" do

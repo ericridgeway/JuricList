@@ -1,6 +1,5 @@
 # Pre8Restart
 
-**TODO: Add description**
 
 ## Installation
 
