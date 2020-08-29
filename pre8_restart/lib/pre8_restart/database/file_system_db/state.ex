@@ -10,25 +10,40 @@ defmodule Pre8Restart.Database.FileSystemDb.State do
 
   @spec new() :: t
   def new() do
-    Enum.reduce(0..@num_workers-1, %{}, fn key, worker_map ->
-      Map.put(worker_map, key, Worker.new())
+    Enum.reduce(0..@num_workers-1, %{}, fn worker_num, worker_map ->
+      Map.put(worker_map, worker_num, Worker.new())
     end)
   end
 
   @spec store(t, D.key, D.value) :: t
   def store(state, key, value) do
-    Worker.store(state[1], key, value)
+    choose_worker(state, key)
+    |> Worker.store(key, value)
+
     state
   end
 
   @spec get(t, D.key) :: D.value
   def get(state, key) do
-    Worker.get(state[1], key)
+    choose_worker(state, key)
+    |> Worker.get(key)
   end
 
+  # NOTE I'm not positive this needed. FileSystemDb.Server (the thing that calls this) is already shutting down this daddy proccess. That might automatically kill the workers we started up in init/new above. For now I'll have this manually go through and kill them, maybe take it out when we get to the supervisor and link stuff
   @spec clear(t) :: :ok
   def clear(state) do
-    Worker.clear(state[1])
+    Enum.map(state, fn {_worker_num, worker_pid} ->
+      Worker.clear(worker_pid)
+    end)
+
+    :ok
+  end
+
+
+  defp choose_worker(state, key) do
+    worker_num = :erlang.phash2(key, @num_workers)
+
+    Map.get(state, worker_num)
   end
 end
 
